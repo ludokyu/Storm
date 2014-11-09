@@ -1,0 +1,42 @@
+<table border='1' id='list_cmd_global'>
+    <tr>
+    <th style="min-width:150px;">Type de Commande</th>
+        <th style='width:75px'>Total</th>
+        <th style="min-width:50px;"><?php echo intval($this->escape($this->total_jour)); ?> &euro;</th>
+    </tr>
+<?php
+$i=1;
+if(count($this->cmd)>0){
+
+    foreach($this->cmd as $cmd){
+
+
+        echo "<tr id='$i'  id_cmd='{$cmd->id_cmd}'
+        onclick=\"\$('tr').attr('class','');\$('tr[id=$i]').attr('class','hightlight')\">
+        <td style='text-align:center;font-weight:bold'>";
+
+        switch ($cmd->type_cmd){
+        case 1://sur place
+            echo "SUR PLACE";
+            break;
+        case 2://emporter
+            echo "EMPORTER";
+            break;
+        case 3://livraison
+            echo "LIVRAISON";
+            break;
+        }
+        echo "</td><td valign='top'>".number_format($cmd->total_cmd,2,","," ")." &euro;</td>
+        <td valign='top'><input type='button' style='cursor:pointer' value='Voir le d&eacute;tail'
+        onclick='affich_detail_cmd({$cmd->id_cmd})'/>";
+
+        echo"</td></tr>";
+
+        $i++;
+    }
+}else{
+echo "<tr><td colspan='3'>Aucune Commande</td></tr>";
+}
+
+    ?>
+    </table>

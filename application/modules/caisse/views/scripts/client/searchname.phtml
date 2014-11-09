@@ -1,0 +1,12 @@
+<a class='close' onclick='$("#div_searchclient").css("display","none")'>Fermer</a>
+<?php echo $this->form; 
+if(isset($this->clients)){
+echo "<table width='100%'><tr><th>Nom</th><th>Adresse</th><th>Téléphone</th></tr>";
+	foreach($this->clients as $val){
+		 	echo "<tr id=".$val->id_client."><td>".$val->nom_client."</td>" .
+				"<td>$val->no_addr ".$this->rue[$val->type_rue]." ".$val->adresse_client." ".$val->code_postal." ".$val->nom_ville."</td>" .
+						"<td>".$val->tel_client."</td></tr>";
+
+	}	
+echo "</table>";
+}

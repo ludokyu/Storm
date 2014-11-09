@@ -1,0 +1,87 @@
+<div style='text-align:center;width:90%;margin:auto;margin-top:30px;'>
+  <?php
+  if($this->action!="cat")
+    echo $this->FormButton("bcat", "Gestion des catégories", array("onclick"=>"location.href='".$this->url(array("a"=>"cat"))."'"));
+  if($this->action!="plat")
+    echo $this->FormButton("bplat", "Gestion des plats", array("onclick"=>"location.href='".$this->url(array("a"=>"plat"))."'"));
+  if($this->action!="ingt")
+    echo $this->FormButton("bingt", "Gestion des ingrédients", array("onclick"=>"location.href='".$this->url(array("a"=>"ingt"))."'"));
+  if($this->action!="sauce")
+    echo $this->FormButton("bsauce", "Gestion des sauces", array("onclick"=>"location.href='".$this->url(array("a"=>"sauce"))."'"));
+  ?>
+</div>
+<?php
+switch($this->action){
+  case "ingt":
+    echo $this->formButton("add_ingt", "Ajouter un ingrédient", array("onclick"=>"modif_ingt_admin(0)", "style"=>"clear:both;margin-left:70px;margin-top:30px;"));
+    break;
+  case "sauce":
+    echo $this->formButton("add_sauce", "Ajouter une sauce", array("onclick"=>"modif_sauce_admin(0)", "style"=>"clear:both;margin-left:70px;margin-top:30px;"));
+    break;
+  case "cat":
+    echo $this->formButton("add_cat", "Ajouter une catégorie", array("onclick"=>"modif_cat_admin(0)", "style"=>"clear:both;margin-left:70px;margin-top:30px;"));
+    break;
+}
+?>
+<div class='list_cat_admin'>
+  <?php
+  switch($this->action){
+    case "plat":
+      $cat=0;
+
+      foreach($this->list as $plat){
+
+        if($plat->id_cat!=$cat){
+
+          if($cat!=0){
+            echo"</div><div style='clear:both'></div>";
+          }
+          echo "<span class='pointer' style='margin-top:10px;width:150px;display:inline-block;float:left'  onclick='\$(\".list_plat_admin[id!=$plat->id_cat]\").css(\"display\",\"none\");\$(\"#".$plat->id_cat."\").slideToggle(\"normal\");'>
+            + $plat->nom_cat</span> ".$this->formButton("add_plat_".$plat->id_cat, "Ajouter", array("onclick"=>"modif_plat_admin($plat->id_cat,0)"))."<br/>\n";
+          
+          echo "<div class='list_plat_admin' id='".$plat->id_cat."' style='display:none'>";
+          $cat=$plat->id_cat;
+        }
+        if(!is_null($plat->id_plat)){
+          echo "<span class='pointer_highlight' style='float:left;margin-top:3px;' title='Cliquez pour modifier'
+        onclick='modif_plat_admin($plat->id_cat,$plat->id_plat)' >-> $plat->nom_plat </span>";
+          echo $this->formButton("del_plat_".$plat->id_plat, "Supprimer", array("onclick"=>"location.href='".$this->url(array("action"=>"deletePlat", "id"=>$plat->id_plat))."'"));
+        }
+        echo"<br/>\n";
+      }
+      echo "</div>";
+      break;
+    case "ingt":
+
+      foreach($this->list as $ingt){
+        echo " <span class='pointer_highlight' style='margin-top:10px;width:70%;display:inline-block;float:left;clear:both'
+            onclick='modif_ingt_admin($ingt->id_ingt)'>
+            $ingt->nom_ingt ".$this->formButton("update_ingt_".$ingt->id_ingt, "Modifier", array("style"=>'float:right;margin-top:0px'))."</span>
+            ".$this->formButton("del_ingt_".$ingt->id_ingt, "Supprimer", array("onclick"=>"location.href='".$this->url(array("action"=>"delete_ingt", "id_ingt"=>$ingt->id_ingt))."'"));
+      }
+      break;
+
+    case "sauce":
+
+      foreach($this->list as $s){
+        echo " <span class='pointer_highlight' style='margin-top:10px;width:70%;display:inline-block;float:left;clear:both'
+            onclick='modif_sauce_admin($s->id_base)'>
+            $s->nom_base ".$this->formButton("update_sauce_".$s->id_base, "Modifier", array("style"=>'float:right;margin-top:0px'))."</span>
+            ".$this->formButton("del_ingt_".$s->id_base, "Supprimer", array("onclick"=>"location.href='".$this->url(array("action"=>"delete_base", "id_base"=>$s->id_base))."'"));
+      }
+      break;
+    case "cat":
+      foreach($this->list as $cat){
+        echo " <span class='pointer_highlight' style='margin-top:10px;width:70%;display:inline-block;float:left;clear:both'>
+        <input type='radio' name='is_default' ".($cat->is_default==1 ? "checked='checked'" : ""
+        )." id='is_default-".$cat->id_cat."'
+        value='".$cat->id_cat."' onclick='cat_default()'/>
+            $cat->nom_cat ".$this->formButton("update_cat_".$cat->id_cat, "Modifier", array("style"=>'float:right;margin-top:0px', ' onclick'=>'modif_cat_admin('.$cat->id_cat.')'))."</span>
+            ".$this->formButton("del_cat_".$cat->id_cat, "Supprimer", array("onclick"=>"location.href='".$this->url(array("action"=>"delete_cat", "id_cat"=>$cat->id_cat))."'"));
+      }
+      break;
+  }
+  ?>
+
+</div>
+<div id="form"></div>

@@ -1,0 +1,228 @@
+body#index{
+
+background-image: url('../images/logo.png');
+background-position: center center;
+
+}
+#content{
+    min-height:500px;
+}
+table{
+    border-collapse:collapse;
+    border-radius:5px;
+
+}
+label{
+    display:inline-block;
+    clear:both;
+    float:left;
+    margin-top:6px;
+}
+#form{
+    position:relative;
+    max-width:55%;
+}
+
+#menu_admin{
+    border-radius:15px;
+    border:solid 2px white;
+    min-width:590px;
+    width:auto;
+    display:block;
+    padding:5px;
+    margin:auto;
+    max-width: 680px;
+    text-align:center;
+}
+#menu_admin a{
+    margin-left:10px;
+    height:70px;
+    width:70px;
+    display:inline-block;
+
+}
+#menu_admin a img{
+    height:70px;
+    border:none;
+}
+.wait{
+    display:none;
+}
+
+#deroulant,#deroulant2
+{
+height:auto;
+margin-left:50px;
+display:none;
+width:700px;
+float:left;
+margin-top:30px;
+}
+#blocaction,#blocaction2
+{
+z-index:100;
+
+display:inline;
+font-size:11px;
+margin-left:auto;
+margin-right:auto;
+text-align:left;
+padding-left:10px;
+cursor:pointer;
+}
+#deroulant{
+    display:block;
+    float:left;
+}
+#recette{
+    clear:both;
+    float:left;
+}
+.detail{
+    color:white;
+    font-size:11pt;
+    text-decoration:none;
+    cursor:pointer;
+}
+#detail_cmd{
+    top:150px;
+    width:400px;
+}
+.pointer_highlight{
+    cursor:pointer;
+    display:inline-block;
+    width:200px;
+    font-size:10pt;
+    margin-top:10px;
+}
+.list_cat_admin{
+    clear:both;
+    margin-left:50px;margin-top:30px;
+    border-radius:7px;
+    border:solid 2px white;
+    width:400px;
+    padding:3px;
+    max-height:420px;
+    overflow:auto;
+    float:left;
+}
+.list_plat_admin{
+    margin-left:5px;
+    display:none;
+    float:left
+}
+fieldset.list_plat_admin_inventaire{
+    clear:both;
+    margin-left:50px;
+    border-radius:7px;
+    border:solid 2px white;
+    width:420px;
+    padding:3px;
+    max-height:400px;
+    overflow:auto;
+    float:left;
+    display: block;
+
+}
+
+fieldset.list_plat_admin_inventaire fieldset{
+    clear:both;
+    margin:0px;
+    border:none;
+    width:410px;
+
+    float:none;
+    padding:0px;
+    display:block;
+
+}
+fieldset.list_plat_admin_inventaire fieldset dl{
+    display: none;
+    max-height:290px;
+    overflow:auto;
+}
+fieldset.list_plat_admin_inventaire fieldset legend{
+    cursor:pointer;
+    font-style: italic;
+}
+
+fieldset{
+    clear:both;
+}
+fieldset label{
+    clear:none;
+}
+.description{
+    width:auto;
+    max-width: 20px;
+    float:left;
+    margin-right:10px;
+    display:inline-block;
+    margin-top:5px;
+}
+div.formValidation{
+    position:absolute;
+    display:inline-block;
+    background-color:#990000;
+    border-radius:10px;
+    border:solid 2px white;
+    margin-top:-50px;
+    width:150px;
+
+    font-size:8pt;
+    padding:2px;
+    z-index:90;
+}
+
+.list_container{
+    position: relative;
+
+    left:230px;
+    margin-bottom:-211px;
+    width:160px;
+    height:190px;
+    background-color: white;
+    border: solid 2px #990000;
+    color:black;
+    float:none;
+    display:none;
+    z-index:1000;
+}
+.list_container dl{
+    margin-top:0px;
+}
+.list_container div{
+    overflow:auto;
+    height:160px;
+    width:160px;
+    clear:both;
+}
+
+ul.errors{
+    position:relative;
+    display:block;
+    background-color:#990000;
+    border-radius:10px;
+
+    border:solid 2px white;
+    list-style:none;
+    width:250px;
+    float:left;
+    clear:none;
+    font-size:10pt;
+    padding:2px;
+    margin-top:5px;
+}
+
+form#parametre{
+    width:1000px;
+    margin:auto;
+}
+
+form#parametre label{
+    width:200px;
+}
+
+form#parametre input[type=text]{
+    width:180px;
+}

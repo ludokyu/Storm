@@ -1,0 +1,5 @@
+<?php
+foreach ($this->view as $val){
+    echo "<tr id='".$val["id"]."' id_panier='".$val["id_panier"]."' onclick='$(\".trhighlight\").attr(\"class\",\"\");$(this).attr(\"class\",\"trhighlight\");'>
+    <td colspan='6'>".$val["form"]."</td></tr>";
+}

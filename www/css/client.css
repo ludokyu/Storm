@@ -1,0 +1,244 @@
+label#totalclient{
+    width:auto !important;
+    border:solid 2px #900;
+    padding:5px;
+    height:auto !important;
+    background:green;
+    float:right !important;
+    font-weight:bold;
+    font-size:9pt !important;
+    -moz-border-radius:10px;
+    -webkit-border-radius:10px;
+    border-radius:10px;
+    margin-top:-5px;
+}
+label#totalclient span{
+    float:none;
+}
+input#no_addr{
+    width:40px!important;
+}
+
+
+div#total_cmd{
+    position:relative;
+    color:red;
+    background:black;
+    padding-bottom:7px;
+    width:180px;
+    height: 82px;
+    float:right;
+    font-size:30pt;
+    margin:5px;
+    text-align:center;
+    border:solid 2px #900;
+    -moz-border-radius:15px;
+    -webkit-border-radius:15px;
+    border-radius:15px;
+}
+div#total_cmd label{
+    width:100%;
+    text-align:center;
+    margin:0;
+    padding:0;
+    padding-top:5px;
+    font-size:20pt
+}
+div#total_cmd span{
+    width:auto;
+    margin-top:5px;
+    float:none;
+}
+#liste_rue td{
+    color:black !important;
+    font-size:10pt;
+}
+#form_client{
+    display:block; width:95%;
+    margin:auto;
+    height:25%;
+    position:relative;
+
+}
+table#list_cmd_global{
+    font-size:10pt;
+}
+#form_client div.left{
+    display:block; float:left;width:600px;
+
+}
+#form_client div.left label,#form_client div.left input,#form_client div.left select,#form_client div.left textarea{
+    width:100px;
+    height:40px;
+
+    display:block;
+    float:left;
+    margin-top:6px;
+    padding-top:8px;
+    margin-left:5px;
+    font-size: 14px;
+}
+#form_client div.left label{
+    text-align:right;
+    width:85px;
+}
+input.qte{
+    width:50px;
+}
+select.ville{
+    width:185px !important;
+}
+#nom_ville+p{
+    display:none;
+    height:100px;
+    width:150px;
+    color:black;
+    overflow:auto;
+    position:absolute;
+    background:white;
+    padding:3px;
+    border:solid 2px #990000;
+    margin-top:125px;
+    margin-left:210px;
+}
+ul{
+    padding-left:2px;
+}
+li{
+    list-style:none;
+
+}
+li.highlight{
+    color:white;
+    background:#990000;
+}
+hr{
+clear:both;
+width:95%;
+}
+table#list_cmd tr,table#list_cmd td{
+    padding:0;
+    margin:0;
+}
+#detail_cmd,#detail_client{
+    padding:5px;
+    width:500px;
+    display:none;
+    -moz-border-radius:10px;
+    -webkit-border-radius:10px;
+    border-radius:10px;
+    position:absolute;
+    right:20px;
+    top:300px;
+    background-color:rgba(68,72,90,0.7);
+    border: solid 2px white;
+
+}
+#detail_client{
+top:500px;
+}
+/* form client  */
+form#form_client{
+    border: solid 1px white;
+display:block;
+height:auto;
+min-height:215px;
+}
+#form_client input, #form_client select,label{
+width:100px;
+}
+#form_client input[type=radio]{
+width:13px;
+border:none;
+}
+#form_client fieldset{
+    border:none
+}
+dt{
+    display:none;
+}
+#form_client dd{
+    display:block;
+    float:left;
+}
+#global_addr-element{
+    width:40%;
+    margin-left:10px;
+    clear:left;
+}
+dd#detail_addr-element{
+    width:55%;
+
+    float:left;
+    margin-left:10px;
+
+}
+dd#detail_addr-element dl{
+    padding-top:0px;
+}
+#detail_addr-element  label{
+    width:70px;
+
+}
+#detail_addr-element label[for=rmq]{
+    width:80px;
+}
+#form_client span{
+    float:none;
+}
+label[for=tel],label[for=societe],label[for=cp],label[for=rmq],label[for=appt]{
+    clear:both;
+}
+label[for=no_addr]{
+    clear:left;
+}
+label[for=nom_client]{
+    width:50px;
+}
+label{
+    font-size:10pt;
+}
+label,label+div{
+    margin-left:10px;
+    margin-top:10px;
+    float:left;
+position:relative;
+}
+div.formValidation{
+    position:absolute;
+    display:inline-block;
+    background-color:#990000;
+    -moz-border-radius:10px;
+    -webkit-border-radius:10px;
+    border-radius:10px;
+    border:solid 2px white;
+    margin-left:30px;
+    width:200px;
+
+    font-size:10pt;
+    padding:2px;
+    z-index:90;
+}
+span{
+    margin-top:10px;
+}
+#liste_rue{
+
+    background-clip: border-box;
+    background-color: white;
+
+    border-color: black;
+    border-style: solid;
+    border-width: 1px;
+    color: black !important;
+    display: none;
+    height: auto;
+    margin-left: 250px;
+    margin-top: 85px;
+    max-height: 200px;
+    min-height: 50px;
+    overflow: auto;
+    position: absolute;
+    width: 185px;
+    z-index :200;
+}

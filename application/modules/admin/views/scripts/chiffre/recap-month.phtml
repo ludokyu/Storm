@@ -1,0 +1,26 @@
+<table border='1' id='list_cmd_global'>
+    <tr>
+        <td colspan='2'>
+            <?php echo $this->formButton("print","Imprimer",array("onclick"=>"window.open('".$this->url(array("action"=>"printMonth",
+                                                    "controller"=>"chiffre",
+                                                    "month"=>date("Y-m",strtotime($this->date_cmd))))."')")); ?>
+        </td>
+    </tr>
+    <tr>
+        <th>Date de la Commande</th>
+
+        <th style='width:75px'>Total</th>
+    </tr>
+    <?php
+
+    foreach($this->cmdMonth as $cmd){
+        echo "<tr >
+            <td style='text-align:center;font-weight:bold'>";
+        echo date("d",strtotime($cmd->date_cmd))." ".$this->month[date("n",strtotime($cmd->date_cmd))]." ".date("Y",strtotime($cmd->date_cmd));
+
+        echo "</td>
+        <td valign='top'>".number_format($cmd->total,2,","," ")." &euro;</td>
+        </tr>";
+    }
+    ?>
+</table>

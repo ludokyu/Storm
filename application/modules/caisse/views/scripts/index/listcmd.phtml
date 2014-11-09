@@ -1,0 +1,46 @@
+<div id='div_recettes'><?php echo $this->action('recette', 'index','caisse'); ?></div>
+
+<div style='float:left'>
+<table cellspacing='0' id='list_cmd_global'>
+    <thead>
+        <tr>
+            <th style='width:40px'>No</th>
+            <th>Type</th>
+            <th style='width:220px'>Client</th><th style='width:220px'>Commande</th>
+            <th style='width:65px'>Total</th>
+            <th style='width:65px'>Heure</th>
+            <th style='width:100px'>Livreur</th>
+            <th style='width:80px'>Mode de paiement</th>
+        </tr>
+    </thead>
+<tbody>
+<?php foreach($this->list as $val){
+    echo "<tr id_cmd='".$val["id_cmd"]."'
+    onclick='\$(\"tr\").removeClass(\"hightlight\");\$(this).addClass(\"hightlight\");'>".
+    "<td style='text-align:center;font-weight:bold'>".$val["no_cmd"]."</td>
+    <td>".$val["type_cmd"]."</td>
+    <td class='client'>".nl2br($val["client"])."</td>
+    <td>";
+    foreach ($val["panier"] as $v)
+        echo $v["qte"]." ".$v["nom_cat"]." ".$v["nom_plat"]." ".$v["taille"]."<br/>";
+
+    echo"</td>
+    <td>".number_format($val["total"],2)." &euro;</td>
+    <td>".$val["heure"]."</td>
+    <td >".$val["livreur"]."<input type='text' class='focus_hidden' id='focus_".$val["id_cmd"]."'/></td>
+    <td>".$val["reglement"]."</td>
+    </tr>";
+
+}?></tbody>
+</table></div>
+
+
+<div id="map" style='float:right'>
+
+     <div id="divMap" style="float:left;width:400px; height:300px"></div>
+     <div id="divRoute" style="float:right;width:90%;height: 400px;;overflow:auto;background:#44485A;display:none"></div>
+     <br/>
+     <center>
+
+     </center>
+</div>

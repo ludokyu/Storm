@@ -1,0 +1,6 @@
+<?php echo $this->form; ?>
+<div id='recette'> <?php echo $this->action("recette","Chiffre","admin",array("year"=>$this->y,"month"=>$this->m,"day"=>$this->d)); ?></div>
+<div id='deroulant'> <?php echo $this->action("listCmd","Chiffre","admin",array("year"=>$this->y,"month"=>$this->m,"day"=>$this->d)); ?></div>
+<div id='deroulant2'><?php echo $this->action("recapMonth","Chiffre","admin",array("year"=>$this->y,"month"=>$this->m,"day"=>$this->d)); ?></div>
+<div id='detail_cmd'></div> 
+<div id='detail_client'></div>

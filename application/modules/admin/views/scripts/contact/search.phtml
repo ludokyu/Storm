@@ -1,0 +1,15 @@
+ <?php foreach($this->list as $li ){
+
+        if($li->is_fav==1)
+            echo "<img src='".$this->BaseUrl("/images/star.gif")."' style='float:left'/>";
+    echo"
+    <span style='display:inline-block;width:auto;margin-right:10px;float:left'> $li->nom_livreur - $li->tel_livreur </span>";
+echo  $this->formButton("delete_".$li->id_livreur,"Supprimer",array("onclick"=>"location.href='".$this->url(array("controller"=>"contact","action"=>"delete","module"=>"admin","id_livreur"=>$li->id_livreur))."'","style"=>"float:right"));
+    echo $this->formButton("update_".$li->id_livreur,"Modifier",array("onclick"=>"location.href='".$this->url(array("controller"=>"contact","action"=>"update","module"=>"admin","id_livreur"=>$li->id_livreur))."'",
+        "style"=>"float:right"));
+
+
+
+    echo "<br/><hr style='margin:0px;width:550px;'/><br/>";
+
+    }?>

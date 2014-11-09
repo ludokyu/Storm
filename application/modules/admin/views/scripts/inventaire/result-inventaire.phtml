@@ -1,0 +1,10 @@
+<?php
+echo $this->formButton("print","Imprimer",array("onclick"=>"window.open('../inventaire.pdf')"));
+$bga=array("68,68,68","102,102,102");
+echo "<br/><br/>";
+foreach($this->list as $data){
+    $bg=$this->cycle($bga)->next();
+    echo "<span style='float:left;background-color:rgba($bg, 0.5);width:100%;display:inline-block;'>".$data["name"]." : <span style='float:right;'>".$data["qte"]." x ".$data["prix"]."= ".$data["inv"]." &euro; </span></span><br style='clear:both'/>";
+
+}
+echo "TOTAL : ".$this->total." &euro;";

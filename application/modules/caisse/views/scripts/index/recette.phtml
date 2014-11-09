@@ -1,0 +1,21 @@
+<?php /*echo $this->formButton("button_recette","Recette du jour",array("onclick"=>"\$('#recette_jour').toggle()","style"=>"margin-bottom:3px;float:right"));?>
+<div id='recette_jour' class='recette'><span style='color:#c00'>TOTAL</span> :
+<?php
+$i=1;
+
+echo number_format($this->recette->total,2);?> &euro;
+<div id='detail_recette_ALL'><?php echo (isset($this->paiement["ALL"]))?$this->paiement["ALL"]:""; ?></div><br/>
+<span style='color:#c00'>TOTAL EMPORTER</span> : <?php echo number_format($this->emporter->total,2);?> &euro;
+<div id='detail_recette_0'><?php echo (array_key_exists(0,$this->paiement))?$this->paiement[0]:""; ?></div>
+</div>
+
+<?php */
+foreach($this->livreur as $liv){
+    echo $this->formButton("button_recette_".$liv->nom_livreur,"Recette de ".$liv->nom_livreur,array("onclick"=>"\$('#recette_$liv->id_livreur').toggle()","style"=>"clear:both;margin-bottom:3px;float:right"));
+
+echo "<div id='recette_$liv->id_livreur' class='recette'><span style='color:#0eee00'>$liv->nom_livreur</span> : ".number_format($liv->total,2)." &euro;
+<div id='detail_recette_$liv->id_livreur'>".$this->encaissement[$liv->id_livreur]."
+  <span>Montant calculé : </span><span id='calcul_".$liv->id_livreur."'>".$this->total_encaissement_livreur[$liv->id_livreur]." &euro;</span></div>
+</div>" ;
+}
+?>

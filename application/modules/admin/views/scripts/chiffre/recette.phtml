@@ -1,0 +1,7 @@
+Total pour <?php echo $this->escape($this->year); ?> : <?php echo $this->escape($this->totalYear); ?>&euro;<br/>
+Total pour <?php echo $this->escape($this->month." ".$this->year); ?> : <?php echo $this->escape($this->totalMonth); ?>&euro;
+<?php echo $this->formButton("detail_month","+ de Détail",array("style"=>"float:none;","onclick"=>'document.getElementById("deroulant").style.display="none";document.getElementById("deroulant2").style.display="block"')); ?><br/>
+Total pour le <?php echo $this->escape($this->day." ".$this->month." ".$this->year); ?> : <?php echo $this->escape($this->totalDay); ?>&euro;
+<?php echo $this->formButton("detail_day","+ de Détail",array("style"=>"float:none;","onclick"=>'document.getElementById("deroulant2").style.display="none";document.getElementById("deroulant").style.display="block"')); ?>
+
+<br/>

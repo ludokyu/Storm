@@ -1,0 +1,13 @@
+<datalist id='datalist_adresse'>
+<?php //<table>
+?>
+    <?php
+    foreach($this->liste as $val){
+      //echo "<tr><td>$val->adresse_client</td></tr>";
+      echo '<option value="'.$val->adresse_client.'">';
+    }
+    ?>
+
+</datalist>
+<?php //</table>
+?>

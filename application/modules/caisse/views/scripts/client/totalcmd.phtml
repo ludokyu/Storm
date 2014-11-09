@@ -1,0 +1,9 @@
+
+<label id="totalclient" >Total command&eacute; :<span style='width:40px'> 
+<?php if($this->verif===1){
+		
+		echo $this->totalclient->total; 
+		echo "&euro; </span><br/>Nbre de commande : ".$this->totalclient->nb;
+		}
+		else{ echo "0  &euro;</span><br/>Nbre de commande : 0";} ?>
+		</label>

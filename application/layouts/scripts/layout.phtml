@@ -1,0 +1,26 @@
+<?php
+$this->headMeta()->appendHttpEquiv('Content-Type', 'text/html;charset=utf-8');
+$this->headTitle()->setSeparator(' :: ');
+$this->headTitle('STORM');
+
+echo $this->doctype();
+
+?>
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="fr" lang="fr">
+<head>
+
+    <?php echo $this->headMeta(); ?>
+
+    <?php echo $this->headTitle(); ?>
+
+    <?php echo $this->headLink(); ?>
+    <?php echo $this->headScript(); ?>
+
+</head>
+
+  <body id='index' >
+<?php echo $this->layout()->content; ?>
+  <span id="Version">Storm version-<?php echo $this->Storm_version;?> </span>
+  <?php echo $this->InlineScript(); ?>
+ </body>
+   </html>

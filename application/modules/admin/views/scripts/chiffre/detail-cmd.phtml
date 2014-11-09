@@ -1,0 +1,155 @@
+<?php
+echo $this->formButton("print","Imprimer",array("onclick"=>"window.open('/caisse/index/print/id_cmd/".$this->cmd->id_cmd."','','location=no,width=10,height=10');","style"=>"float:right"));
+if(!empty($this->cmd->code_reglement))
+    echo "Payé en ".$this->cmd->nom_reglement."<br/>";
+
+if(!empty($this->cmd->nom_livreur))
+    echo "Livr&eacute; par ".$this->cmd->nom_livreur."<br/>";
+echo "<br/>";
+if(!empty($this->cmd->id_client)){
+    $client=$this->cmd;
+        if($client->societe!="")
+            echo (ucwords($this->escape($client->societe))." ");
+    echo "<div>";
+    echo ucwords($this->escape($client->nom_client." "));
+    echo  "<br/>\n";
+
+
+    $Client=new Admin_Model_DbTable_Client();
+    $type_rue=$Client->getType_rue($client->type_rue);
+    echo $this->escape(("$client->no_addr ".$type_rue." $client->adresse_client"));
+    echo  "<br/>\n";
+    if($client->appt!="")
+        echo "Appt. : ".$this->escape($client->appt)."<br/>\n";
+    if($client->etage!="")
+        echo "Etage : ".$this->escape($client->etage)."<br/>\n";
+    if($client->digicode!="")
+        echo "Digicode : ".$this->escape($client->digicode)."<br/>\n";
+    if($client->bat!="")
+        echo "Bat : ".$this->escape($client->bat)."<br/>\n";
+    if($client->entree!="")
+        echo "Entr&eacute;e : ".$this->escape($client->entree)."<br/>\n";
+    if($client->porte!="")
+        echo "Porte : ".$this->escape($client->porte)."<br/>\n";
+    echo $this->escape("$client->code_postal $client->nom_ville ");
+        echo  "<br/>\n";
+
+    if(trim($client->rmq)!="")
+        echo "Rmq : ".$this->escape($client->rmq)."<br/>\n";
+
+    echo "<span style='font-weight:bold'>tel : ".$this->escape($client->tel_client)."  </span>";
+
+        echo  "</div>\n";
+
+} ?>
+<hr/>
+<?php
+foreach($this->list_panier as $panier){
+    //Zend_Debug::dump($panier);
+    echo strtoupper("$panier->qte_panier ");
+        if($panier->afficher==1)
+            echo $panier->nom_cat;
+
+        if(!is_null($panier->nom_base)){
+            echo " Base $panier->nom_base ";
+
+        }
+        if($panier->big_on_ticket==1)
+            echo strtoupper(" $panier->nom_plat ");
+        else
+            echo " $panier->nom_plat ";
+
+        if(!is_null($panier->nom_plat2)){
+
+            echo "<b> /".strtoupper($panier->nom_plat2)."</b>";
+
+        }
+
+        if($panier->taille!="" && $panier->taille!=0){
+            $taille=unserialize($panier->tab_taille);
+            echo "- <big><b>".substr(strtoupper($taille[$panier->taille]),0,1)."</b></big>";
+        }
+        echo "<span style='float:right'>";
+        if($panier->prix_panier!=0)
+            echo " ".number_format($panier->prix_panier,2)." &euro;\n";
+        else echo " OFFERT\n";
+
+        echo "</span><br/><b>";
+
+        if(!empty($panier->moins_ingt)){
+            echo utf8_decode(" - $panier->nom_moins ");
+            echo "<br/>\n";
+
+        }
+        if(!empty($panier->plus_ingt)){
+            echo utf8_decode(" + $panier->nom_plus ");
+            echo "<br/>\n";
+
+        }
+        if(trim($panier->rmq)!=""){
+
+            echo " $panier->rmq ";
+            echo "<br/>\n";
+
+        }
+
+        echo "</b>";
+
+        if($panier->is_menu){
+
+
+            foreach($panier->menu as $menu){
+                $qte_menu="";
+                if($panier->qte_panier>1)
+                    $qte_menu="$panier->qte_panier * ";
+                if($menu->afficher==1)
+                    echo  "&rarr;$qte_menu 1 $menu->nom_cat ";
+                else    echo  "&rarr;$qte_menu 1";
+                if($menu->id_base!=0){
+                    echo " Base <span style='font-style:italic'>$menu->nom_base</span> ";
+                }
+                if($menu->big_on_ticket==1)
+                    echo  strtoupper(" $menu->nom_plat ");
+                else
+                    echo  " $menu->nom_plat ";
+
+                if($menu->id_plat2!=0){
+                    echo "<b> /".strtoupper($menu->nom_plat2)."</b>";
+                    echo  "";
+
+                }
+
+                if(!is_null($menu->taille)){
+                    $taille=unserialize($menu->tab_taille);
+                    echo  "- <big><b>".substr(strtoupper($taille[$menu->taille]),0,1)."</b></big>";
+                }
+                echo  "<br/>
+                ";
+                //Zend_Debug::dump($menu->nom_moins);
+                if(!empty($menu->ingt_moins)){
+                    $Ingt=new Admin_Model_DbTable_Ingt();
+                    $nom_moins=nl2br($Ingt->getListIngtMoins($menu->ingt_moins));
+                    echo " &nbsp; &nbsp; &nbsp; - ".utf8_decode($nom_moins)." ";
+                    echo  "<br/>\n";
+
+                }
+                if(!empty($menu->ingt_plus)){
+                    $Ingt=new Admin_Model_DbTable_Ingt();
+                    $nom_plus=nl2br($Ingt->getListIngtPlus($menu->ingt_plus));
+
+                    echo " &nbsp; &nbsp; &nbsp;+ ".utf8_decode($nom_plus) ;
+                        echo  " <br/>
+                        ";
+
+                }echo "</b>";
+            }
+        }
+        if($panier->etat_panier=="0"){
+            echo " &nbsp; <span style='color:red'>Commande Supprim&eacute;</span>";
+        }
+}
+
+?>
+<hr/>
+<big style='font-weight:bold'>TOTAL TTC :  <span style='float:right'><?php echo number_format($this->cmd->total_cmd,2);?> &euro;</span></big><br/>
+<big style='font-weight:bold'>TOTAL Commande :  <span style='float:right'><?php echo number_format($this->total_cmd,2);?> &euro;</span></big>

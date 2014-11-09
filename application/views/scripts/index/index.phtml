@@ -1,0 +1,8 @@
+<center id='fond_page' style='margin:auto;width:900px;'>
+<img src='images/logo.gif' width='90%'/>
+<?php echo $this->content;?>
+
+</center>
+<a  id='enter_cmd' href="<?php echo $this->url(array('controller'=>'index','action'=>'index','module'=>'caisse'),"default",true);?>" target="caisse" ></a>
+<a href="<?php echo $this->url(array('controller'=>'index','action'=>'index','module'=>'admin'),"default",true);?>" id="admin" ></a>
+<script type='text/javascript'>document.getElementById('enter_cmd').focus();</script>

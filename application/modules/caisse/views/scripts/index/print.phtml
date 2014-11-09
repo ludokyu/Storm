@@ -1,0 +1,213 @@
+<?php ob_start();
+$this->headMeta()->appendHttpEquiv('Content-Type', 'text/html;charset=utf-8');
+echo $this->doctype(); ?>
+    <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="fr" lang="fr">
+<head>
+ <?php echo $this->headMeta();?>
+    </head>
+<body>
+<?php
+echo strtoupper("<center>".$this->config->PIZZA."<br/>\n".$this->config->TEL."<br/>\n");
+    echo "".$this->config->ADDR."<br/>\n";
+    if(!is_null($this->cmd->societe) && $this->cmd->societe!="")
+            echo $this->config->SIRET."<br/>\n";
+    echo $this->config->WEB."</center><br/>\n";
+?>
+<center style='text-decoration:underline'>Commande n&deg;<?php echo $this->cmd->no_cmd;?> du <?php
+echo $this->cmd->date_cmd; ?>	</center>
+
+<center>** <?php echo $this->cmd->nom_type_cmd; ?> **</center>
+<br/>
+<?php
+
+if($this->cmd->id_client!=0){
+    $client=$this->cmd;
+        if($client->societe!="")
+            echo (ucwords($client->societe)." ");
+    echo "<div ";
+    if($this->cmd->type_cmd!=3)
+        echo " style='text-align:right' ";
+    echo ">";
+    echo ucwords($client->nom_client." ");
+    echo  "<br/>\n";
+
+    if($this->cmd->type_cmd==3){
+
+    $Client=new Caisse_Model_DbTable_Client();
+    $type_rue=$Client->getType_rue($client->type_rue);
+    echo (("$client->no_addr ".$type_rue." $client->adresse_client"));
+    echo  "<br/>\n";
+    if($client->appt!="")
+        echo "Appt. : $client->appt<br/>\n";
+    if($client->etage!="")
+        echo "Etage : $client->etage<br/>\n";
+    if($client->digicode!="")
+        echo "Digicode : $client->digicode<br/>\n";
+    if($client->bat!="")
+        echo "Bat : $client->bat<br/>\n";
+    if($client->entree!="")
+        echo "Entr&eacute;e : $client->entree<br/>\n";
+    if($client->porte!="")
+        echo "Porte : $client->porte<br/>\n";
+    echo ("$client->code_postal $client->nom_ville ");
+        echo  "<br/>\n";
+    }
+
+
+
+        if(trim($client->rmq)!="")
+        echo "Rmq : $client->rmq<br/>\n";
+
+    echo "<span style='font-weight:bold'>tel : $client->tel_client  </span>";
+
+        echo  "</div><br/>\n";
+
+} ?>
+<hr/>
+<?php
+foreach($this->list_panier as $panier){
+    //Zend_Debug::dump($panier);
+    echo strtoupper("$panier->qte_panier ");
+      if($panier->afficher==1)
+          echo $panier->nom_cat;
+
+      if(!is_null($panier->nom_base)){
+          echo " Base {$panier->nom_base} ";
+
+      }
+      echo " " .(($panier->big_on_ticket==1) ? strtoupper($panier->nom_plat) : $panier->nom_plat ) ." ";
+
+      if(!is_null($panier->nom_plat2)){
+
+          echo "<b> /".strtoupper($panier->nom_plat2)."</b>";
+
+      }
+
+      if($panier->taille!="" && $panier->taille!=0){
+          $taille=unserialize($panier->tab_taille);
+          echo "- <big><b>".substr(strtoupper($taille[$panier->taille]),0,1)."</b></big>";
+      }
+      echo "<span style='float:right'>";
+      if($panier->prix_panier!=0)
+          echo " ".number_format($panier->prix_panier,2)." &euro;\n";
+
+      else echo " OFFERT\n";
+
+      echo "</span><br/><b>";
+
+      if(!empty($panier->moins_ingt)){
+          echo " - ".$panier->nom_moins;
+          echo " <br/>\n";
+
+      }
+      if(!empty($panier->plus_ingt)){
+          echo " + ".$panier->nom_plus;
+          echo " <br/>\n";
+
+      }
+      if(trim($panier->rmq)!=""){
+
+          echo " {$panier->rmq} ";
+          echo "<br/>\n";
+
+      }
+
+      echo "</b>";
+
+      if($panier->is_menu){
+
+
+          foreach($panier->menu as $menu){
+              $qte_menu="";
+              if($panier->qte_panier>1)
+                  $qte_menu=$panier->qte_panier." * ";
+
+              echo ($menu->afficher==1) ? "&rarr;$qte_menu 1 {$menu->nom_cat} " : "&rarr;$qte_menu 1";
+
+              if($menu->id_base!=0)
+                  echo " Base <span style='font-style:italic'>{$menu->nom_base}</span> ";
+
+              echo " ".(($menu->big_on_ticket==1) ? strtoupper($menu->nom_plat) : $menu->nom_plat ) ." ";
+
+              if($menu->id_plat2!=0){
+                  echo "<b> /".strtoupper($menu->nom_plat2)."</b>";
+                  echo  "";
+
+              }
+
+              if(!is_null($menu->taille)){
+                  $taille=unserialize($menu->tab_taille);
+                  echo  "- <big><b>".substr(strtoupper($taille[$menu->taille]),0,1)."</b></big>";
+              }
+              echo  "<br/>
+              ";
+              //Zend_Debug::dump($menu->nom_moins);
+              if(!empty($menu->ingt_moins)){
+                  $Ingt=new Caisse_Model_DbTable_Ingt();
+                  $nom_moins=nl2br(str_replace("\n","\n &nbsp; &nbsp; &nbsp;",$Ingt->getListIngtMoins($menu->ingt_moins)));
+                  echo " &nbsp; &nbsp; &nbsp; - ".utf8_decode($nom_moins)." ";
+                  echo  "<br/>\n";
+
+              }
+              if(!empty($menu->ingt_plus)){
+                  $Ingt=new Caisse_Model_DbTable_Ingt();
+                  $nom_plus=nl2br(str_replace("\n","\n &nbsp; &nbsp; &nbsp;",$Ingt->getListIngtPlus($menu->ingt_plus)));
+
+                  echo " &nbsp; &nbsp; &nbsp;+ ".utf8_decode($nom_plus)." ";
+                      echo  "<br/>
+                      ";
+
+              }echo "</b>";
+          }
+      }
+}
+
+?>
+<hr/>
+<big style='font-weight:bold'>TOTAL TTC :  <span style='float:right'><?php echo number_format($this->cmd->total_cmd,2);?> &euro;</span></big>
+
+    <br/>
+    <br/>
+    <?php
+    $totalht=number_format($this->cmd->total_cmd/1.07,2);
+    $tva=$this->cmd->total_cmd-$totalht;
+    $tva=number_format($tva,2);
+    echo "TOTAL HT : <span style='float:right'>$totalht &euro;</span>";
+    echo "<br/>\n";
+    echo "TVA 7% : <span style='float:right'>$tva &euro;</span>";
+    echo "<br/>\n";
+
+    echo  "<br/>\n";
+    echo"<center style='font-size:14pt'>Bon App&eacute;tit !</center>";
+
+
+    ?>
+<script type='text/javascript'>//print();
+    <?php if($this->config->module_print && $this->config->os=="win"){ ?>
+    jsPrintSetup.setOption('marginTop', 0);
+    jsPrintSetup.setOption('marginBottom', 0);
+    jsPrintSetup.setOption('marginLeft', 0);
+    jsPrintSetup.setOption('marginRight', 0);
+    jsPrintSetup.setOption('headerStrLeft', '');
+    jsPrintSetup.setOption('headerStrCenter', '');
+    jsPrintSetup.setOption('headerStrRight', '');
+    // set empty page footer
+    jsPrintSetup.setOption('footerStrLeft', '');
+    jsPrintSetup.setOption('footerStrCenter', '');
+    jsPrintSetup.setOption('footerStrRight', '');
+
+    // clears user preferences always silent print value
+    // to enable using 'printSilent' option
+    jsPrintSetup.clearSilentPrint();
+    // Suppress print dialog (for this context only)
+    jsPrintSetup.setOption('printSilent', 1);
+
+        jsPrintSetup.print();
+    <?php }
+    ?>
+    //  jsPrintSetup. setShowPrintProgress(oldShowPrintProgress);
+   window.close();
+</script>
+    </body>
+</html>
+

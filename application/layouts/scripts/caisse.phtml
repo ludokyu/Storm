@@ -1,0 +1,138 @@
+<?php
+$this->headMeta()->appendHttpEquiv('Content-Type', 'text/html;charset=utf-8');
+$this->headTitle()->setSeparator(' :: ');
+$this->headTitle('STORM :: Traitement des commandes');
+
+echo $this->doctype();
+
+?>
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="fr" lang="fr">
+<head>
+
+    <?php echo $this->headMeta(); ?>
+
+    <?php echo $this->headTitle(); ?>
+
+    <?php echo $this->headLink();
+    echo $this->headScript(); ?>
+
+</head>
+
+
+<body  onload="" onkeyup="listcmd_Event(event);" onblur=''>
+
+<div id='confirm' style='background-image:none;height:100px;'>
+  <form id='form_confirm' onsubmit="">
+    <label style='width:100%;float:left;height:20px;line-height:20px;margin-top:5px;text-align:center;' id='confirm_title'>
+
+    </label>
+    <label style='width:110px;float:left;height:20px;line-height:20px;margin-top:5px;text-align:left;'>
+      Mot de passe :
+    </label>
+    <input type='password' id='mpd' name='mdp' style='width:100px;float:left;'/>
+    <input type='reset' value='Annuler' class='button' onclick='$("#confirm").css("display","none");' style='clear:both'/>
+    <input type='submit' value='Valider' style='float:right;'/>
+  </form>
+</div>
+
+<div id="corps">
+<div id="list_cmd">
+<?php echo $this->layout()->content; ?>
+
+</div>
+
+<div id="exe_cmd">
+<input type='hidden' id="id_cmd" name="id_cmd" />
+<div id="client">
+</div><hr />
+
+<table id="list_panier">
+<thead><tr id="header">
+    <th width="80">Quantit&eacute;</th>
+    <th width="400">Plat</th>
+    <th width="200">Suppl&eacute;ment</th>
+    <th width="80">Taille</th>
+    <th width="90">Prix</th>
+    <th width="250">Remarque</th>
+</tr>
+</thead>
+<tbody>
+</tbody>
+</table></div>
+</div>
+<div id="over1" class='div_over'></div>
+<div id="over2" class='div_over'></div>
+<div id="clickhelp" onclick="$('#bottom').css('display','block')">&nbsp;?</div>
+<div id="bottom" onclick="affich_help()" >
+    <span id="close" onclick="$('#bottom').css('display','none');setTimeout(function(){$('#help').css('display','none')},10);" > </span>
+    <span class="help">F2 : Nouvelle Commande</span>
+    - <span class="help">F8 : Modifier Commande/Client</span>
+
+    - <span class="help">F9+F8 : Enregistrer Commande</span>
+    - <span class="help">F9+F9 : Enregistrer/Imprimer Commande</span>
+        - <span class="help">F9+H : Aide</span>
+
+</div>
+<div id="help" onclick='$(this).hide("normal");'>
+<span id='close' onclick='$("#help").hide("normal");'></span>
+<h3>Op&eacute;ration g&eacute;n&eacute;ral</h3>
+<ul type='circle'>
+    <li><label>F11 : </label><span>Affichage en plein &eacute;cran</span></li>
+    <li><label>F9+H : </label><span>Afficher cette aide</span></li>
+</ul>
+
+<hr style='clear:both'/><h3>Op&eacute;ration dans la partie liste des Commandes</h3>
+<ul type='circle'>
+    <li><label>F2 : </label><span>Nouvelle Commande</span></li>
+    <li><label>&uarr; ou &darr;: </label><span>S&eacute;lectionner une commande</span></li>
+    <li><label>F8 : </label><span>Modifier une commande <br/>ou les coordonn&eacute;es du client</span></li>
+    <li><label>F9+F9 : </label><span>Imprimer la commande s&eacute;lectionn&eacute; (sans r&eacute;-enregistrement)</span></li>
+    <li><label>inser : </label><span>Enregistrer le livreur de la commande</span></li>
+    <li><label>R : </label><span>Enregistrer le type de paiement de la commande</span></li>
+
+    <!--li><label>F9+p : </label><span>Afficher l'adresse du client sur la carte (uniquement si connexion internet)</span></li>
+    <li><label>F9+i : </label><span>Ajouter une adresse pour l'itin&eacute;raire (uniquement si connexion internet)</span></li>
+    <li><label>F9+i : </label><span>r&eacute;-initialise la carte (uniquement si connexion internet)</span></li>
+    -->
+</ul>
+
+<hr  style='clear:both'/>
+<h3>Op&eacute;ration dans la partie prise de Commande</h3>
+<ul type='circle'>
+    <li><label>² : </label><span>Rechercher un client</span></li>
+    <li><label style='width:auto;'>Page Up/Down :&nbsp;</label><span>S&eacute;lectionner un client/adresse</span></li>
+    <li><label>&uarr;/&darr; : </label><span>S&eacute;lectionner une ville</span></li>
+    <li><label>F4 : </label><span>Re-saisir les donn&eacute;es du client</span></li>
+    <li><label>F2 : </label><span>Commencer une nouvelle Commande</span></li>
+    <li><label>F9+echap :</label><span>Quitter la commande sans enregistrer</span></li>
+    <li><label>F9+F9 : </label><span>Enregistrer/Imprimer la commande</span></li>
+    <li><label>F9+F8 : </label><span>Enregistrer la commande (sans impression)</span></li>
+    <li><label>/ : </label><span>diviser le plat en 2 parties </span></li>
+    <li><label>* : </label><span>Changer la base/sauce du plat </span></li>
+    <li><label>+,a-z : </label><span>Ajouter/retirer des ingr&eacute;dients</span></li>
+
+</ul>
+<br/>
+<hr  style='clear:both'/>
+<h3>Op&eacute;ration dans la partie choix des ingr&eacute;dients</h3>
+<ul type='circle'>
+    <li><label>a-z : </label><span>acc&egrave;s au premier ingr&eacute;dient commen&ccedil;ant par la lettre tap&eacute;e</span></li>
+    <li><label>&uarr;/&darr;/&rarr;/&larr; : </label><span>Se d&eacute;placer dans la liste des ingr&eacute;dients</span></li>
+    <li><label>Entrer : </label><span>Valider</span></li>
+
+</ul>
+<br/>
+<hr  style='clear:both'/>
+<h3>Op&eacute;ration dans la partie choix des composants d'un menu</h3>
+<ul type='circle'>
+   <li><label>* : </label><span>Changer la base/sauce du plat </span></li>
+   <li><label>+ : </label><span>Ajouter/retirer des ingr&eacute;dients</span></li>
+
+</ul>
+<br/>
+</div>
+<div id="wait" >Veuillez Patientez pendant l'enregistrement des donn&eacute;es <br/>
+</div>
+
+</body>
+</html>

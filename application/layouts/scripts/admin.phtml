@@ -1,0 +1,45 @@
+<?php
+$this->headMeta()->appendHttpEquiv('Content-Type', 'text/html;charset=utf-8');
+$this->headTitle()->setSeparator(' :: ');
+$this->headTitle('STORM');
+
+echo $this->doctype();
+
+?>
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="fr" lang="fr">
+<head>
+
+    <?php echo $this->headMeta(); ?>
+
+    <?php echo $this->headTitle(); ?>
+
+    <?php echo $this->headLink(); ?>
+    <?php echo $this->headScript(); ?>
+
+</head>
+
+    <body ><div id="menu_admin">
+<a href='<?php echo $this->url(array("action"=>"index","controller"=>"chiffre","module"=>"admin"),null,"default"); ?>'  title="Chiffre r&eacute;alis&eacute;"><img src="<?php echo $this->BaseUrl("images/euro.gif");?>"  /></a>
+<a href='<?php echo $this->url(array("action"=>"livreur","controller"=>"contact","module"=>"admin"),null,"default"); ?>'  title="Livreur"><img src="<?php echo $this->BaseUrl("images/livreur.png");?>"  /></a>
+<a href='<?php echo $this->url(array("action"=>"index","controller"=>"plat","module"=>"admin"),null,"default"); ?>'  title="Gestion des plats"><img src="<?php echo $this->BaseUrl("images/plat.png"); ?>"  /></a>
+<a href='<?php echo $this->url(array("action"=>"index","controller"=>"securite","module"=>"admin"),null,"default"); ?>'  title="S&eacute;curit&eacute;"><img src="<?php echo $this->BaseUrl("images/verrou.png"); ?>"  /></a>
+<a href='<?php echo $this->url(array("action"=>"index","controller"=>"contact","module"=>"admin"),null,"default"); ?>'  title="Contact"><img src="<?php echo $this->BaseUrl("images/contact.png"); ?>"  /></a>
+
+<a href='<?php echo $this->url(array("action"=>"index","controller"=>"inventaire","module"=>"admin"),null,"default"); ?>'  title="Inventaire"><img src="<?php echo $this->BaseUrl("images/inventaire.png"); ?>"  /></a>
+<a href='<?php echo $this->url(array("action"=>"index","controller"=>"commande","module"=>"admin"),null,"default"); ?>'  title="Inventaire"><img src="<?php echo $this->BaseUrl("images/inventaire.png"); ?>"  /></a>
+<?php if($this->identity["username"]=="Storm") { ?>
+<a href='<?php echo $this->url(array("action"=>"index","controller"=>"parametre","module"=>"admin"),null,"default"); ?>'  title="Param&egrave;trage"><img src="<?php echo $this->BaseUrl("images/parametrage.png"); ?>"  /></a>
+<?php  } ?>
+<!--<a href='flush.php'  onclick="$('#wait').css('display','block');" title="Vider la Corbeille"><img src="<?php echo $this->BaseUrl("images/poubelle-vide.png"); ?>"  /></a>-->
+<a href='<?php echo $this->url(array("action"=>"logout","controller"=>"index","module"=>"admin"),null,"default"); ?>' title="D&eacute;connexion"   ><img src="<?php echo $this->BaseUrl("images/exit.gif"); ?>" /></a>
+
+
+</div><div class="wait" id='flush'>Veuillez patienter pendant le vidage de la corbeille</div>
+<div id="wait" class='wait'>Veuillez patienter pendant le traitement des donn&eacute;es</div>
+<div id="content"><h2><?php echo $this->title; ?></h2>
+<?php echo $this->layout()->content; ?>
+</div>
+    <span id="Version">Storm version-<?php echo $this->Storm_version;?> </span>
+
+ </body>
+   </html>
