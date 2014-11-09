@@ -1,42 +1,68 @@
-<table border='1' id='list_cmd_global'>
-    <tr>
-    <th style="min-width:150px;">Type de Commande</th>
-        <th style='width:75px'>Total</th>
-        <th style="min-width:50px;"><?php echo intval($this->escape($this->total_jour)); ?> &euro;</th>
-    </tr>
-<?php
-$i=1;
-if(count($this->cmd)>0){
 
-    foreach($this->cmd as $cmd){
+<table  id='list_cmd_global' style='border:none 0px;'>
+  <tr>
+    <td style='border:none 0px;'>
+      <table>
+        <tr>
+          <th style="min-width:150px;">Type de Commande</th>
+          <th style='width:75px'>Total</th>
+          <th style="min-width:50px;"><?php echo number_format($this->escape($this->total_jour),2); ?> &euro;</th>
+        </tr>
+        <?php
+        $i=1;
+        if(count($this->cmd)>0){
+
+          foreach($this->cmd as $cmd){
 
 
-        echo "<tr id='$i'  id_cmd='{$cmd->id_cmd}'
+            echo "<tr id='$i'  id_cmd='{$cmd->id_cmd}'
         onclick=\"\$('tr').attr('class','');\$('tr[id=$i]').attr('class','hightlight')\">
         <td style='text-align:center;font-weight:bold'>";
 
-        switch ($cmd->type_cmd){
-        case 1://sur place
-            echo "SUR PLACE";
-            break;
-        case 2://emporter
-            echo "EMPORTER";
-            break;
-        case 3://livraison
-            echo "LIVRAISON";
-            break;
-        }
-        echo "</td><td valign='top'>".number_format($cmd->total_cmd,2,","," ")." &euro;</td>
+            switch($cmd->type_cmd){
+              case 1://sur place
+                echo "SUR PLACE";
+                break;
+              case 2://emporter
+                echo "EMPORTER";
+                break;
+              case 3://livraison
+                echo "LIVRAISON";
+                break;
+            }
+            echo "</td><td valign='top'>".number_format($cmd->total_cmd, 2, ",", " ")." &euro;</td>
         <td valign='top'><input type='button' style='cursor:pointer' value='Voir le d&eacute;tail'
         onclick='affich_detail_cmd({$cmd->id_cmd})'/>";
 
-        echo"</td></tr>";
+            echo"</td></tr>";
 
-        $i++;
-    }
-}else{
-echo "<tr><td colspan='3'>Aucune Commande</td></tr>";
-}
+            $i++;
+          }
+        }
+        else{
+          echo "<tr><td colspan='3'>Aucune Commande</td></tr>";
+        }
+        ?>
+      </table>
+    </td>
+    <td style='border:none 0px;'> 
+      <table>
+        <tr>
+          <th style='width:150px;border:none 0px;' colspan='2'>Détail des paiements</th>
+            <?php
+            foreach($this->RecapReglement as $k=> $reg){
+              echo "<tr >
+            <td style='text-align:left;font-weight:bold'>";
+              echo $this->tabReglement[$k];
 
-    ?>
-    </table>
+              echo "</td>
+        <td valign='top'>".number_format($reg, 2, ",", " ")." &euro;</td>
+        </tr>";
+            }
+            ?>
+        </tr>
+      </table>
+    </td>
+  </tr>
+</table>
+

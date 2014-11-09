@@ -406,9 +406,8 @@ class Caisse_IndexController extends Zend_Controller_Action{
         @list($champ, $mode)=explode("_", $key);
         if($champ=="encaissement"&&!empty($value)){
           $data_db=array("en_id_livreur"=>$values["id_livreur"], "enliv_modpaiment"=>$mode, "enliv_montant"=>$value);
-          $r=Zend_Registry::get('firephp');
-
-          $r->log($data_db,Zend_Log::INFO);
+      
+       
           $Cmd->encaissement($data_db);
         }
       }

@@ -42,6 +42,33 @@ class Admin_Model_DbTable_Cmd extends Storm_Model_DbTable_Cmd{
     return $this->fetchRow($select);
   }
 
+  public function getRecapPaiementDay($date){
+    $select=$this->select();
+    $select->setIntegrityCheck(false)
+            ->from($this, array("etat_paiment", "total"=>new Zend_Db_Expr("SUM(total_cmd)")))
+            ->where("date_cmd LIKE ?", date("Y-m-d", strtotime($date))."%")
+            ->where("type_cmd <>3")
+            ->where("statut_cmd ='O'")
+            ->group("etat_paiment");
+    $return=array();
+    $data=$this->fetchAll($select);
+    foreach($data as $r){
+      $return[$r->etat_paiment]=$r->total;
+    }
+    $select2=$this->select()
+            ->setIntegrityCheck(false)
+            ->from("enliv_encaissement_livreur", array("enliv_modpaiment", "total"=>new Zend_Db_Expr("SUM(enliv_montant)")))
+            ->where("enliv_date LIKE ?", date("Y-m-d", strtotime($date))."%")
+            ->group("enliv_modpaiment");
+
+    $data2=$this->fetchAll($select2);
+    foreach($data2 as $r){
+      @$return[$r->enliv_modpaiment]+=$r->total;
+    }
+
+    return $return;
+  }
+
   public function getCmdByDate($date){
 
     $select=$this->select();

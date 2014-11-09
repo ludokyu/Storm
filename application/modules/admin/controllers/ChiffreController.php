@@ -123,6 +123,16 @@ class Admin_ChiffreController extends Zend_Controller_Action{
     $d=$this->getRequest()->getParam("day", date("d"));
 
     $Cmd=new Admin_Model_DbTable_Cmd();
+      $Reg=new Admin_Model_DbTable_Reglement();
+  
+       $r=$Reg->getAll();
+    $tab_reglement=array();
+    foreach($r as  $re){
+      $tab_reglement[$re->code_reglement]=$re->nom_reglement;
+    }
+    $this->view->tabReglement=$tab_reglement;
+     $this->view->RecapReglement=$Cmd->getRecapPaiementDay("$y-$m-$d");
+   
     $this->view->total_jour=$Cmd->getTotalFromDate("$y-$m-$d")->total_jour;
     $this->view->cmd=$Cmd->getCmdByDate("$y-$m-$d");
   }
