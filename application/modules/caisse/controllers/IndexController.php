@@ -376,7 +376,7 @@ class Caisse_IndexController extends Zend_Controller_Action{
     $this->_helper->layout->disableLayout();
     $this->_helper->viewRenderer->setNoRender();
     $Regl=new Caisse_Model_DbTable_Reglement();
-    $Cmd= new Caisse_Model_DbTable_Cmd();
+    $Cmd=new Caisse_Model_DbTable_Cmd();
     $reg=$Regl->getAll();
     $liv=$this->getRequest()->getParam("id_livreur");
     $paiement=new Storm_Form_Default();
@@ -389,7 +389,7 @@ class Caisse_IndexController extends Zend_Controller_Action{
     foreach($reg as $r){
       if($r->code_reglement!=0){
 
-        $paiement->NewElement("float", "encaissement_".$r->code_reglement, $r->nom_reglement, array("validators"=>array("float"),
+        $paiement->NewElement("float", "encaissement_".$r->code_reglement, $r->nom_reglement, array("validators"=>array(array("Float", false, array("locale"=>"en"))),
             "ErrorMessage"=>"'%value%' ne semble pas être un nombre",
             "value"=>$this->getRequest()->getParam("encaissement_".$r->code_reglement),
             "attribs"=>array("onblur"=>"calcul_encaissement('".$liv."')"),
@@ -404,12 +404,15 @@ class Caisse_IndexController extends Zend_Controller_Action{
       $values=$paiement->getValues();
       foreach($values as $key=> $value){
         @list($champ, $mode)=explode("_", $key);
-        if($champ=="encaissement" && !empty($value)){
-          $data_db=array("en_id_livreur"=>$values["id_livreur"],"enliv_modpaiment"=>$mode,"enliv_montant"=>$value);
+        if($champ=="encaissement"&&!empty($value)){
+          $data_db=array("en_id_livreur"=>$values["id_livreur"], "enliv_modpaiment"=>$mode, "enliv_montant"=>$value);
+          $r=Zend_Registry::get('firephp');
+
+          $r->log($data_db,Zend_Log::INFO);
           $Cmd->encaissement($data_db);
         }
       }
-      $this->_helper->json->sendJson($data);
+      //$this->_helper->json->sendJson($data);
     }
     else{
       // echec!
