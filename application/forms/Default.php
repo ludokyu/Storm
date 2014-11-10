@@ -26,7 +26,7 @@ class Storm_Form_Default extends Zend_Form{
         break;
       case "float":
         $element=new Zend_Form_Element_Text($name);
-          $element->addValidator("float");
+        $element->addValidator("float");
       default:
         $default=array("text", "hidden", "textarea", "password", "select", "radio", "button", "reset", "file", "submit", "selectattrib", "DoubleMultiCheckbox", "multicheckbox", "html");
 

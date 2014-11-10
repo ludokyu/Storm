@@ -6,7 +6,7 @@
         <tr>
           <th style="min-width:150px;">Type de Commande</th>
           <th style='width:75px'>Total</th>
-          <th style="min-width:50px;"><?php echo number_format($this->escape($this->total_jour),2); ?> &euro;</th>
+          <th style="min-width:50px;"><?php echo (!empty($this->total_jour)?number_format($this->escape($this->total_jour),2):0); ?> &euro;</th>
         </tr>
         <?php
         $i=1;
@@ -56,7 +56,7 @@
               echo $this->tabReglement[$k];
 
               echo "</td>
-        <td valign='top'>".number_format($reg, 2, ",", " ")." &euro;</td>
+        <td valign='top'>".(!empty($reg)?number_format($reg, 2, ",", " "):0)." &euro;</td>
         </tr>";
             }
             ?>
