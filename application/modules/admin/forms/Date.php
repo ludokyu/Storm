@@ -3,7 +3,7 @@
 class Admin_Form_Date extends Storm_Form_Default
 {
 
-    public function init()
+    public function init($name="")
     {
         /* Form Elements & Other Definitions Here ... */
         

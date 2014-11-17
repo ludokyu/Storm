@@ -290,7 +290,8 @@ class Caisse_IndexController extends Zend_Controller_Action{
 
   public function printAction(){
     // action body
-    $this->_helper->layout->disableLayout();
+     $this->_helper->layout->setLayout("print");
+   
     $config=new Zend_Config_Ini(APPLICATION_PATH.'/configs/storm.ini');
     $this->view->config=$config;
 
@@ -406,8 +407,8 @@ class Caisse_IndexController extends Zend_Controller_Action{
         @list($champ, $mode)=explode("_", $key);
         if($champ=="encaissement"&&!empty($value)){
           $data_db=array("en_id_livreur"=>$values["id_livreur"], "enliv_modpaiment"=>$mode, "enliv_montant"=>$value);
-      
-       
+
+
           $Cmd->encaissement($data_db);
         }
       }

@@ -1,15 +1,4 @@
 <table id='list_cmd_global' style='border:none 0px;'>
-  <tr >
-    <td colspan='2' style='border:none 0px;'>
-      <?php
-    
-      echo $this->formButton("print", "Imprimer", array("onclick"=>"window.open('".$this->url(array("action"=>"printmonth",
-              "controller"=>"chiffre",
-              "month"=>$this->mois))."')"));
-      
-      ?>
-    </td>
-  </tr>
   <tr>
     <td style='border:none 0px;'>
       <table style='border:none 0px;'>
@@ -33,6 +22,8 @@
 
       </table>
     </td>
+  </tr>
+  <tr>
     <td style='border:none 0px;'>
       <table>
         <tr>

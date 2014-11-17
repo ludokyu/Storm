@@ -3,10 +3,10 @@
 class Admin_Form_Login extends Storm_Form_Default
 {
 
-    public function init()
+    public function init($name="login")
     {
         /* Form Elements & Other Definitions Here ... */
-        parent::init("login");
+        parent::init($name);
 
 
         $this->NewElement('text','username','Login',array("required"=>true,"attribs"=>array("style"=>"clear:both"),"ErrorMessage"=>"Veuillez renseigner l'identifiant"));

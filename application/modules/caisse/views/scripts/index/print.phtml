@@ -182,32 +182,4 @@ foreach($this->list_panier as $panier){
 
 
     ?>
-<script type='text/javascript'>//print();
-    <?php if($this->config->module_print && $this->config->os=="win"){ ?>
-    jsPrintSetup.setOption('marginTop', 0);
-    jsPrintSetup.setOption('marginBottom', 0);
-    jsPrintSetup.setOption('marginLeft', 0);
-    jsPrintSetup.setOption('marginRight', 0);
-    jsPrintSetup.setOption('headerStrLeft', '');
-    jsPrintSetup.setOption('headerStrCenter', '');
-    jsPrintSetup.setOption('headerStrRight', '');
-    // set empty page footer
-    jsPrintSetup.setOption('footerStrLeft', '');
-    jsPrintSetup.setOption('footerStrCenter', '');
-    jsPrintSetup.setOption('footerStrRight', '');
-
-    // clears user preferences always silent print value
-    // to enable using 'printSilent' option
-    jsPrintSetup.clearSilentPrint();
-    // Suppress print dialog (for this context only)
-    jsPrintSetup.setOption('printSilent', 1);
-
-        jsPrintSetup.print();
-    <?php }
-    ?>
-    //  jsPrintSetup. setShowPrintProgress(oldShowPrintProgress);
-   window.close();
-</script>
-    </body>
-</html>
 

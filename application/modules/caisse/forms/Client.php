@@ -3,10 +3,10 @@
 class Caisse_Form_Client extends Storm_Form_Default
 {
 
-    public function init()
+    public function init($name = 'form_client')
     {
         /* Form Elements & Other Definitions Here ... */
-        parent::init("form_client");
+        parent::init($name);
 
         $this->setAction("/caisse/client");
 

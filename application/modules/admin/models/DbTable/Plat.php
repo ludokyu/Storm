@@ -44,7 +44,7 @@ class Admin_Model_DbTable_Plat extends Storm_Model_DbTable_Plat{
     $this->update(array("statut_plat"=>0), "id_plat=$id");
   }
 
-  public function insert($data){
+  public function insert(array $data){
     parent::insert($data);
     return $this->getAdapter()->lastInsertId();
   }

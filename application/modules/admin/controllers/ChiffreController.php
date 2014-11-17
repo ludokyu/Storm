@@ -123,16 +123,16 @@ class Admin_ChiffreController extends Zend_Controller_Action{
     $d=$this->getRequest()->getParam("day", date("d"));
 
     $Cmd=new Admin_Model_DbTable_Cmd();
-      $Reg=new Admin_Model_DbTable_Reglement();
-  
-       $r=$Reg->getAll();
+    $Reg=new Admin_Model_DbTable_Reglement();
+
+    $r=$Reg->getAll();
     $tab_reglement=array();
-    foreach($r as  $re){
+    foreach($r as $re){
       $tab_reglement[$re->code_reglement]=$re->nom_reglement;
     }
     $this->view->tabReglement=$tab_reglement;
-     $this->view->RecapReglement=$Cmd->getRecapPaiementDay("$y-$m-$d");
-   
+    $this->view->RecapReglement=$Cmd->getRecapPaiementDay("$y-$m-$d");
+
     $this->view->total_jour=$Cmd->getTotalFromDate("$y-$m-$d")->total_jour;
     $this->view->cmd=$Cmd->getCmdByDate("$y-$m-$d");
   }
@@ -142,12 +142,13 @@ class Admin_ChiffreController extends Zend_Controller_Action{
     $y=$this->getRequest()->getParam("year", date("Y"));
     $m=$this->getRequest()->getParam("month", date("m"));
     $d=$this->getRequest()->getParam("day", date("d"));
-    $this->view->month=date("Y-m", strtotime("$y-$m-$d"));
+    $this->view->action=$this->getRequest()->getActionName();
+    $this->view->mois=date("Y-m", strtotime("$y-$m-$d"));
     $Cmd=new Admin_Model_DbTable_Cmd();
     $Reg=new Admin_Model_DbTable_Reglement();
     $r=$Reg->getAll();
     $tab_reglement=array();
-    foreach($r as  $re){
+    foreach($r as $re){
       $tab_reglement[$re->code_reglement]=$re->nom_reglement;
     }
     $this->view->tabReglement=$tab_reglement;
@@ -225,6 +226,43 @@ class Admin_ChiffreController extends Zend_Controller_Action{
     $this->_helper->redirector("index", "chiffre", "admin", array("year"=>$this->getRequest()->getParam("year"),
         "month"=>$this->getRequest()->getParam("month"),
         "day"=>$this->getRequest()->getParam("day")));
+  }
+
+  public function printmonthAction(){
+    // action body
+       $this->_helper->layout->setLayout("print");
+  
+    $config=new Zend_Config_Ini(APPLICATION_PATH.'/configs/storm.ini');
+    $this->view->config=$config;
+    $this->view->action=$this->getRequest()->getActionName();
+    $mois=$this->getRequest()->getParam("month", date("Y-m"));
+    $this->mois=$mois;
+
+    $Cmd=new Admin_Model_DbTable_Cmd();
+    $Reg=new Admin_Model_DbTable_Reglement();
+    $r=$Reg->getAll();
+    $tab_reglement=array();
+    foreach($r as $re){
+      $tab_reglement[$re->code_reglement]=$re->nom_reglement;
+    }
+    $this->view->tabReglement=$tab_reglement;
+    $this->view->cmdMonth=$Cmd->getRecapMonth("$mois-01");
+    $this->view->RecapReglement=$Cmd->getRecapPaiementMonth("$mois-01");
+    $this->view->month=$this->month;
+  
+    if($config->module_print&&$config->os=="unix"){
+
+      $html=ob_get_contents();
+      $fp=fopen(realpath(APPLICATION_PATH)."/".$this->mois.".html", "w+");
+
+      fwrite($fp, $html);
+      fclose($fp);
+      $exec="lpr -d{$config->printer}  ".realpath(APPLICATION_PATH)."/".$this->mois.".html ";
+      exec($exec, $output);
+
+
+      unlink(realpath(APPLICATION_PATH)."/".$this->mois.".html");
+    }
   }
 
 }
