@@ -1,0 +1,57 @@
+<?php
+if(count($this->clients)>25){
+  echo $this->formSelect("page", $this->page, array("onchange"=>"searchClient('".$this->search."',this.value)"), $this->pages);
+}
+?>
+<table>
+  <tr>
+    <th style='width:180px;'>Nom/Société</th>
+    <th style='width:100px;'>Téléphone</th>
+    <th>Adresse</th>
+  </tr>
+
+  <?php
+  if(empty($this->clients)){
+    echo "<tr><td colspan='3'>Aucun client trouvé</td></tr>";
+  }
+  else{
+
+    $bga=array("68,68,68", "102,102,102");
+    $Ville=new Admin_Model_DbTable_Ville();
+    for($i=($this->page-1)*25; $i<$this->page*25; $i++){
+      if(isset($this->clients[$i])){
+        $c=$this->clients[$i];
+        $bg=$this->cycle($bga)->next();
+        echo "<tr style='background-color:rgba($bg, 0.5);'>";
+        echo "<td>".($c->nom_client ? $c->nom_client : $c->societe)."</td>";
+        echo "<td>".$c->tel_client."</td>";
+        echo '<td>'.$c->no_addr." ".$this->type_rue[$c->type_rue]." ".$c->adresse_client.'<br/>
+          '.$c->code_postal." ";
+        if(!empty($c->nom_ville))
+                echo $c->nom_ville;
+        elseif($c->id_ville){
+          
+          echo $Ville->getVille($c->id_ville)[0]["nom_ville"];
+         
+        }
+        if(!empty($c->appt))
+          echo "<br/>Appartement: ".$c->appt;
+        if(!empty($c->etage))
+          echo "<br/>Etage: ".$c->etage;
+        if(!empty($c->digicode))
+          echo "<br/>Digicode: ".$c->digicode;
+        if(!empty($c->bat))
+          echo "<br/>Batiment: ".$c->bat;
+        if(!empty($c->entree))
+          echo "<br/>Entree: ".$c->entree;
+        if(!empty($c->porte))
+          echo "<br/>Porte: ".$c->porte;
+        if(!empty($c->rmq))
+          echo "<br/>Remarque: ".$c->rmq;
+        echo'    </td></tr>';
+      }
+    }
+  }
+  ?>
+
+</table>

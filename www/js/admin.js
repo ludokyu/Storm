@@ -301,3 +301,15 @@ function print_inventaire() {
                 //, dataType: "json"
     });
 }
+
+function searchClient(name,page){
+    $.ajax({
+        type: "POST",
+        url: "/admin/Client/search",
+        data: "ajax=1&name="+name+"&page="+page,
+        success: function(text) {
+            $('#result').html(text);
+        }, dataType: "html"
+                //, dataType: "json"
+    });
+}
