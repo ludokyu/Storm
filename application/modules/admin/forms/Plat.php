@@ -2,10 +2,10 @@
 
 class Admin_Form_Plat extends Storm_Form_Default{
 
-  public function init(){
+  public function init($name="modif_plat"){
     /* Form Elements & Other Definitions Here ... */
-    parent::init("modif_plat");
-    $this->setName("modif_plat");
+    parent::init($name);
+    $this->setName($name);
     $this->setAction("/admin/plat/plat");
     $this->setAttrib("onsubmit", "submit_form('#modif_plat'); return false");
     $this->NewElement("hidden", "id_plat", "");
@@ -31,7 +31,7 @@ class Admin_Form_Plat extends Storm_Form_Default{
     foreach($bases as $b){
       $option[$b->id_ingt]=$b->nom_ingt;
     }
-    $this->NewElement("multicheckbox", "list_ingt", "Choix des ingrédients de votre plat", array("options"=>$option, "separator"=>" ", "attribs"=>array("label_style"=>"clear:none;font-size:10pt;width:120px;")));
+    $this->NewElement("MultiCheckbox", "list_ingt", "Choix des ingrédients de votre plat", array("options"=>$option, "separator"=>" ", "attribs"=>array("label_style"=>"clear:none;font-size:10pt;width:120px;")));
     $this->NewElement("button", "add_menu", "Ajouter un composant à votre menu", array("attribs"=>array("onclick"=>"addMenu()")));
     $this->NewElement("hidden", "count_menu", "", array("value"=>0));
     $this->NewElement("button", "cancel", "Annuler", array( "attribs"=>array("style"=>"clear:both;", "onclick"=>"\$('#form').css('display','none')")));

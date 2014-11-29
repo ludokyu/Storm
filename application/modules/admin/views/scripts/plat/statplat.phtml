@@ -1,0 +1,14 @@
+<ul id="Cat<?= $this->id_cat ?>" style="list-style:none">
+ <?php
+ if(!empty($this->listPlat)){
+    echo "<ul style='clear:both;list-style:none'>";
+    foreach($this->listPlat as $cat){
+      echo "<li id='".$cat["id_plat"]."'>".$cat["nom_plat"]." : ".$cat["qte"];
+     
+      echo "</li>";
+    }
+    echo "</ul>";
+  } ?>
+  
+  
+</ul>

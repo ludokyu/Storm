@@ -3,10 +3,10 @@
 class Caisse_Form_Menu extends Storm_Form_Default
 {
 
-    public function init()
+    public function init($name="form_menu")
     {
         /* Form Elements & Other Definitions Here ... */
-         parent::init("form_menu");
+         parent::init($name);
 
           $this->setAction("/caisse/menu");
              $this->NewElement("hidden","id_panier","",array("order"=>1));
@@ -40,7 +40,7 @@ class Caisse_Form_Menu extends Storm_Form_Default
                         }
                         $param_element=array("order"=>$count,"RegisterInArrayValidator"=>false,
                                 "value"=>$val->id_plat_default,
-                                "attribs"=>array("tabindex"=>"$tabindex","onkeyup"=>"suivant(this,event)","is_compo"=>$c[0]["is_compo"],"is_base"=>$c[0]["is_base"],"is_pizza"=>$c[0]["is_pizza"],"id_cat"=>$val->id_cat),
+                                "attribs"=>array("tabindex"=>"$tabindex","onkeydown"=>"t=this;setTimeout(function(){suivant($(t),event);},100);","is_compo"=>$c[0]["is_compo"],"is_base"=>$c[0]["is_base"],"is_pizza"=>$c[0]["is_pizza"],"id_cat"=>$val->id_cat),
                                 "options"=>$option);
                      $this->NewElement("select","id_plat_$i","1 $nom_cat $taille",$param_element);
 

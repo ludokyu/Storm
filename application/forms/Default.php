@@ -19,28 +19,37 @@ class Storm_Form_Default extends Zend_Form{
 
   public function NewElement($type, $name, $label, $param=array()){
     static $order=0;
+     
     switch($type){
-
+   
       case "captcha":
         $element=new Zend_Form_Element_Captcha($name, array("captcha"=>$param["captcha"]));
         break;
+     
       case "float":
         $element=new Zend_Form_Element_Text($name);
         $element->addValidator("float");
+        break;
+       case "date":
+        $element=new ZendX_JQuery_Form_Element_DatePicker($name);
+        break;
       default:
-        $default=array("text", "hidden", "textarea", "password", "select", "radio", "button", "reset", "file", "submit", "selectattrib", "DoubleMultiCheckbox", "multicheckbox", "html");
-
+        
+        $default=array("text", "hidden", "textarea", "password", "select", "radio", "button", "reset", "file", "submit", "selectattrib", "DoubleMultiCheckbox", "MultiCheckbox", "html");
+        
         if(in_array($type, $default))
           eval("\$element = new Zend_Form_Element_".ucfirst($type)."('$name');");
         else
           $element=new Zend_Form_Element($name);
     }
+    
+     
     //config par default
     $element->setName($name)
             ->removeDecorator("Label")
             ->removeDecorator("HtmlTag")
             ->removeDecorator("DtDdWrapper");
-    if(!in_array($type, array("captcha", "file"))){
+    if(!in_array($type, array("captcha", "file","date"))){
       $element->addDecorators(array(
           array('ViewHelper', array('tag'=>null)),
               )
@@ -108,8 +117,13 @@ class Storm_Form_Default extends Zend_Form{
         case "datalist":
           $element->setDatalist($p);
           break;
+      
       }
     }
+    
+    if (array_key_exists('jQueryParams', $param))
+              $element->setJQueryParams($param['jQueryParams']);
+    
     if(array_key_exists('filters', $param))
       $element->setFilters($param['filters']);
     else

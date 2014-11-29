@@ -22,11 +22,11 @@ class Admin_PlatController extends Zend_Controller_Action{
             ->appendFile($this->view->BaseUrl("/js/script.js"));
     $bootstrap=$this->getInvokeArg('bootstrap');
 
-    // Retrouve l'espace de nom de l'application.
+// Retrouve l'espace de nom de l'application.
 
     $ns=rtrim($bootstrap->getAppNamespace(), '_');
 
-    // Récupère les paramètres sous la forme d'un tableau
+// Récupère les paramètres sous la forme d'un tableau
     $config=$bootstrap->getOption($ns);
 
     $this->view->Storm_version=$config['version'];
@@ -42,7 +42,7 @@ class Admin_PlatController extends Zend_Controller_Action{
   }
 
   public function indexAction(){
-    // action body
+// action body
     $action=$this->getRequest()->getParam("a", "plat");
     $this->view->action=$action;
     switch($action){
@@ -77,7 +77,7 @@ class Admin_PlatController extends Zend_Controller_Action{
   }
 
   public function platAction(){
-    // action body
+// action body
     $this->_helper->layout->disableLayout();
     $form=new Admin_Form_Plat();
     $Table=new Admin_Model_DbTable_Plat();
@@ -88,13 +88,13 @@ class Admin_PlatController extends Zend_Controller_Action{
       $data=$form->processAjax($_POST);
 
       if($data=="true"){
-        // succès!
+// succès!
 
 
         $data_insert=$formData;
 
         foreach($data_insert as $k=> $d){
-          // Zend_Debug::dump($d);
+// Zend_Debug::dump($d);
           if(!in_array($k, array("id_plat", "place", "go", "liv", "nom_plat", "list_ingt", "id_cat")))
             unset($data_insert[$k]);
           elseif(is_array($d))
@@ -102,13 +102,13 @@ class Admin_PlatController extends Zend_Controller_Action{
         }
 
 
-        // Zend_Debug::dump($formData["id_plat"]);
+// Zend_Debug::dump($formData["id_plat"]);
         if(empty($formData["id_plat"])){
-          //insert
+//insert
           $id=$Table->insert($data_insert);
         }
         else{
-          //update;;
+//update;;
           $id=$formData["id_plat"];
           $Table->update($data_insert, "id_plat=".$id);
         }
@@ -139,11 +139,11 @@ class Admin_PlatController extends Zend_Controller_Action{
 
           foreach($menu_insert as $k=> $m){
             if(empty($m["id_menu"])){
-              //insert
+//insert
               $id=$Menu->insert($m);
             }
             else{
-              //update;;
+//update;;
               $id=$m["id_menu"];
 
               $Menu->update($m, "id_menu=".$id);
@@ -154,7 +154,7 @@ class Admin_PlatController extends Zend_Controller_Action{
         $this->_helper->json->sendJson($data);
       }
       else{
-        // echec!
+// echec!
         $this->_helper->json->sendJson($data);
       }
     }
@@ -279,7 +279,7 @@ class Admin_PlatController extends Zend_Controller_Action{
   }
 
   public function ingtAction(){
-    // action body
+// action body
     $this->_helper->layout->disableLayout();
     $form=new Storm_Form_Default("form_ingt");
     $form->setName("form_ingt");
@@ -293,24 +293,24 @@ class Admin_PlatController extends Zend_Controller_Action{
       $formData=$this->getRequest()->getPost();
       $data=$form->processAjax($_POST);
       if($data=="true"){
-        // succès!
+// succès!
         unset($formData["submit"]);
         $data_insert=$formData;
         echo "admin=ingt|";
         $ingt=new Admin_Model_DbTable_Ingt();
         if($formData["id_ingt"]==""){
-          //insert
+//insert
           $ingt->insert($data_insert);
         }
         else{
-          //update;;
+//update;;
           $id=$formData["id_ingt"];
           $ingt->update($data_insert, "id_ingt=".$id);
         }
         $this->_helper->json->sendJson($data);
       }
       else{
-        // echec!
+// echec!
         $this->_helper->json->sendJson($data);
       }
     }
@@ -326,7 +326,7 @@ class Admin_PlatController extends Zend_Controller_Action{
   }
 
   public function baseAction(){
-    // action body
+// action body
     $this->_helper->layout->disableLayout();
     $form=new Storm_Form_Default("form_base");
     $form->setName("form_base");
@@ -341,24 +341,24 @@ class Admin_PlatController extends Zend_Controller_Action{
       $formData=$this->getRequest()->getPost();
       $data=$form->processAjax($_POST);
       if($data=="true"){
-        // succès!
+// succès!
         unset($formData["submit"]);
         $data_insert=$formData;
         echo "admin=sauce|";
         $base=new Admin_Model_DbTable_Base();
         if($formData["id_base"]==""){
-          //insert
+//insert
           $base->insert($data_insert);
         }
         else{
-          //update;;
+//update;;
           $id=$formData["id_base"];
           $base->update($data_insert, "id_base=".$id);
         }
         $this->_helper->json->sendJson($data);
       }
       else{
-        // echec!
+// echec!
         $this->_helper->json->sendJson($data);
       }
     }
@@ -374,21 +374,21 @@ class Admin_PlatController extends Zend_Controller_Action{
   }
 
   public function deletebaseAction(){
-    // action body
+// action body
     $Table=new Admin_Model_DbTable_Base();
     $Table->delete("id_base=".$this->getRequest()->getParam("id_base", 0));
     $this->_helper->redirector("index", "plat", "admin", array("a"=>"sauce"));
   }
 
   public function catAction(){
-    // action body
+// action body
     $this->_helper->layout->disableLayout();
     $form=new Admin_Form_Categorie();
     if($this->getRequest()->isPost()){
       $formData=$this->getRequest()->getPost();
       $data=$form->processAjax($_POST);
       if($data=="true"){
-        // succès!
+// succès!
         if(isset($formData["tab_taille"])){
           for($i=count($formData["tab_taille"]); $i>0; $i--)
             $formData["tab_taille"][$i]=$formData["tab_taille"][$i-1];
@@ -401,18 +401,18 @@ class Admin_PlatController extends Zend_Controller_Action{
         echo "admin=cat|";
         $cat=new Admin_Model_DbTable_Categorie();
         if($formData["id_cat"]==""){
-          //insert
+//insert
           $cat->insert($data_insert);
         }
         else{
-          //update;;
+//update;;
           $id=$formData["id_cat"];
           $cat->update($data_insert, "id_cat=".$id);
         }
         $this->_helper->json->sendJson($data);
       }
       else{
-        // echec!
+// echec!
         $this->_helper->json->sendJson($data);
       }
     }
@@ -440,14 +440,14 @@ class Admin_PlatController extends Zend_Controller_Action{
   }
 
   public function catdefaultAction(){
-    // action body
+// action body
     $Table=new Admin_Model_DbTable_Categorie();
     $Table->update(array("is_default"=>0), "is_default=1");
     $Table->update(array("is_default"=>1), "id_cat=".$this->getRequest()->getParam("id_cat", 0));
   }
 
   public function tailleAction(){
-    // action body
+// action body
     $this->_helper->layout->disableLayout();
     $Table=new Admin_Model_DbTable_Categorie();
     $cat=$Table->get($this->getRequest()->getParam("id", 0));
@@ -462,7 +462,7 @@ class Admin_PlatController extends Zend_Controller_Action{
   }
 
   public function divplatAction(){
-    // action body
+// action body
     $this->_helper->layout->disableLayout();
     $Table=new Admin_Model_DbTable_Plat();
     $plat=$Table->listplat($this->getRequest()->getParam("id", 0));
@@ -482,7 +482,7 @@ class Admin_PlatController extends Zend_Controller_Action{
   }
 
   public function addmenuAction(){
-    // action body
+// action body
     $this->_helper->layout->disableLayout();
     $i=$this->getRequest()->getParam("i", 0);
     $id_menu=new Zend_Form_Element_Hidden("id_menu_$i");
@@ -564,17 +564,58 @@ class Admin_PlatController extends Zend_Controller_Action{
   }
 
   public function deleteplatAction(){
-    // action body
+// action body
     $p=new Admin_Model_DbTable_Plat();
     $p->deletePlat($this->getRequest()->getParam("id", 0));
     $this->_redirect("/admin/plat/index/a/plat");
   }
 
   public function deletecatAction(){
-    // action body
+// action body
     $p=new Admin_Model_DbTable_Plat();
     $p->deletePlat($this->getRequest()->getParam("id", 0));
     $this->_redirect("/admin/plat/index/a/cat");
+  }
+
+  public function statAction(){
+// action body
+
+    $form=new Storm_Form_Default("search");
+    $form->NewElement("date", "startDate", "Date de début", array("value"=>$this->getRequest()->getParam("startDate", date("01-m-Y")), 'jQueryParams'=>array('dateFormat'=>'dd-mm-yy',
+            'changeMonth'=>'true',
+            'changeYear'=>'true'), "attribs"=>array("style"=>"width:80px")));
+    $form->NewElement("date", "endDate", "Date de fin", array("value"=>$this->getRequest()->getParam("endDate", date("t-m-Y")), 'jQueryParams'=>array('dateFormat'=>'dd-mm-yy',
+            'changeMonth'=>'true',
+            'changeYear'=>'true'), "attribs"=>array("style"=>"width:80px"), "decorators"=>array("Label"=>array("style"=>"clear:none;margin-left:20px"))));
+
+    $form->NewElement("submit", "BtnSubmit", "Valider", array("attribs"=>array("style"=>"margin-left:20px;width:80px;")));
+    //Zend_Debug::dump($form->startDate);
+
+    $this->view->form=$form;
+    $data=$form->getValues();
+    $Plat=new Admin_Model_DbTable_Plat();
+    $date_deb=explode("-", $data["startDate"]);
+    rsort($date_deb);
+    $date_deb=implode("-", $date_deb);
+    $date_fin=explode("-", $data["endDate"]);
+    rsort($date_fin);
+    $date_fin=implode("-", $date_fin);
+    $this->view->datedeb=$date_deb;
+    $this->view->datefin=$date_fin;
+    $this->view->listCat=$Plat->consommationCat($date_deb, $date_fin);
+  }
+
+  public function statplatAction(){
+    // action body
+     $this->_helper->layout->disableLayout();
+     $Plat=new Admin_Model_DbTable_Plat();
+     $this->view->id_cat=$id_cat=$this->getRequest()->getParam("id_cat", 0);
+     $date_deb=$this->getRequest()->getParam("datedeb");
+     $date_fin=$this->getRequest()->getParam("datefin");
+     $plat=$Plat->consommationPlat($id_cat,$date_deb, $date_fin);
+    
+     $this->view->listPlat=$plat;
+             
   }
 
 }

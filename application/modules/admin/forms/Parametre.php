@@ -3,11 +3,11 @@
 class Admin_Form_Parametre extends Storm_Form_Default
 {
 
-    public function init()
+    public function init($name="parametre")
     {
         /* Form Elements & Other Definitions Here ... */
-        parent::init("parametre");
-        $this->setName("parametre");
+        parent::init($name);
+        
 
         $this->NewElement("text","PIZZA","Nom");
         $this->NewElement("text","TEL","Téléphone");

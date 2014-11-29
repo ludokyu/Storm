@@ -313,3 +313,15 @@ function searchClient(name,page){
                 //, dataType: "json"
     });
 }
+
+function consommationPlat(id_cat,datedeb,datefin){
+    $.ajax({
+        type: "POST",
+        url: "/admin/Plat/statplat",
+        data: "id_cat="+id_cat+"&datedeb="+datedeb+"&datefin="+datefin,
+        success: function(text) {
+            $('li#'+id_cat).append(text);
+        }, dataType: "html"
+                //, dataType: "json"
+    });
+}

@@ -1,0 +1,21 @@
+<div style='text-align:center;width:90%;margin:auto;margin-top:30px;'>
+  <?php
+    echo $this->FormButton("bcat", "Gestion des catégories", array("onclick"=>"location.href='".$this->url(array("a"=>"cat","action"=>"index"))."'"));
+    echo $this->FormButton("bplat", "Gestion des plats", array("onclick"=>"location.href='".$this->url(array("a"=>"plat","action"=>"index"))."'"));
+    echo $this->FormButton("bingt", "Gestion des ingrédients", array("onclick"=>"location.href='".$this->url(array("a"=>"ingt","action"=>"index"))."'"));
+    echo $this->FormButton("bsauce", "Gestion des sauces", array("onclick"=>"location.href='".$this->url(array("a"=>"sauce","action"=>"index"))."'"));
+ 
+  ?>
+</div>
+  <?php echo $this->form;
+  if(!empty($this->listCat)){
+    echo "<ul style='clear:both;list-style:none'>";
+    foreach($this->listCat as $cat){
+      echo "<li id='".$cat["id_cat"]."' style='cursor:pointer;'
+        onclick=\"if($(this).children().length==0){consommationPlat(this.id,'".$this->datedeb."','".$this->datefin."');}else{\$('#Cat_".$cat["id_cat"]."').toggle();}\">".$cat["nom_cat"]." : ".$cat["qte"];
+     
+      echo "</li>";
+    }
+    echo "</ul>";
+  }
+  

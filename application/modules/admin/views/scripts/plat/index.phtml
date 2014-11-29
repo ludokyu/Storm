@@ -8,6 +8,7 @@
     echo $this->FormButton("bingt", "Gestion des ingrédients", array("onclick"=>"location.href='".$this->url(array("a"=>"ingt"))."'"));
   if($this->action!="sauce")
     echo $this->FormButton("bsauce", "Gestion des sauces", array("onclick"=>"location.href='".$this->url(array("a"=>"sauce"))."'"));
+   echo $this->FormButton("bstat", "Statistique de vente", array("onclick"=>"location.href='".$this->url(array("action"=>"stat"))."'"));
   ?>
 </div>
 <?php
