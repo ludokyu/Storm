@@ -3,10 +3,10 @@
 class Caisse_Form_Panier extends Storm_Form_Default
 {
 
-    public function init()
+    public function init($name="form_panier")
     {
 
-       parent::init("form_panier");
+       parent::init($name);
         $this->setAction("/caisse/panier/insert/");
     $this->setAttrib("onsubmit","return false;");
 

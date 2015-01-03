@@ -24,7 +24,7 @@ class Caisse_Model_DbTable_PanierMenu extends Storm_Model_DbTable_PanierMenu
 			}
 			if(isset($array["plat_2_$i"]))	$data["id_plat2"]=$array["plat_2_".$i];
 			if(isset($array["base_$i"]))	$data["id_base"]=$array["base_".$i];
-			
+
 			$this->add($data);
 		}
 		
@@ -38,7 +38,7 @@ class Caisse_Model_DbTable_PanierMenu extends Storm_Model_DbTable_PanierMenu
 	
 	public function findsubpanier($id_panier){
 		$select=$this->select();
-		$select->where("id_panier=$id_panier")
+		$select->where("id_panier=$id_panier AND id_panier<>0")
 		->order("id_panier_menu");
 		return $this->fetchAll($select);
 		

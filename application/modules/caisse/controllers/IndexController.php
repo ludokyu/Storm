@@ -249,7 +249,7 @@ class Caisse_IndexController extends Zend_Controller_Action{
     $this->_helper->layout->disableLayout();
     $this->_helper->viewRenderer->setNoRender();
     $data=array();
-
+    $panier=new Caisse_Model_DbTable_Panier();
     if($this->getRequest()->getParam("id_client")!="")
       $data["id_client"]=$this->getRequest()->getParam("id_client");
     elseif($this->getRequest()->getParam("type_cmd")==3){
@@ -260,7 +260,40 @@ class Caisse_IndexController extends Zend_Controller_Action{
 
     $data["no_cmd"]=intval($cmd->getMaxNoCmd())+1;
     $data["type_cmd"]=$this->getRequest()->getParam("type_cmd");
-    echo $cmd->insert($data);
+
+    $id_cmd=$cmd->insert($data);
+    $session_cmd=new Zend_Session_Namespace("cmd");
+    foreach($session_cmd->panier as $data){
+      $panier->insertPanierToCmd($id_cmd, $data);
+    }
+    echo $id_cmd;
+  }
+
+  public function updatecmdAction(){
+    // action body
+    $this->_helper->layout->disableLayout();
+    $this->_helper->viewRenderer->setNoRender();
+    $data=array();
+    $panier=new Caisse_Model_DbTable_Panier();
+    if($this->getRequest()->getParam("id_client")!="")
+      $data["id_client"]=$this->getRequest()->getParam("id_client");
+    elseif($this->getRequest()->getParam("type_cmd")==3){
+      $client=new Caisse_Model_DbTable_Client();
+      $data["id_client"]=$client->getMaxIdClient();
+    }
+    $cmd=new Caisse_Model_DbTable_Cmd();
+
+    $data["type_cmd"]=$this->getRequest()->getParam("type_cmd");
+    
+
+    $session_cmd=new Zend_Session_Namespace("cmd");
+    $id_cmd=$session_cmd->id_cmd;
+    
+    $panier->truncate($id_cmd);
+    foreach($session_cmd->panier as $data){
+      $panier->insertPanierToCmd($id_cmd, $data);
+    }
+    echo $id_cmd;
   }
 
   public function insertpanierAction(){
@@ -290,8 +323,8 @@ class Caisse_IndexController extends Zend_Controller_Action{
 
   public function printAction(){
     // action body
-     $this->_helper->layout->setLayout("print");
-   
+    $this->_helper->layout->setLayout("print");
+
     $config=new Zend_Config_Ini(APPLICATION_PATH.'/configs/storm.ini');
     $this->view->config=$config;
 

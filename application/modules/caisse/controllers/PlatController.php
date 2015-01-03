@@ -40,8 +40,9 @@ class Caisse_PlatController extends Zend_Controller_Action{
     // action body
     $p=$this->getRequest()->getParam("plat", 0);
     $k=$this->getRequest()->getParam("k", 0);
-
-    $form=$this->getForm($p, $this->getRequest()->getParam("p", 0), $this->getRequest()->getParam("m", 0), $k);
+    $valuep=$this->getRequest()->getParam("p", 0)!="undefined"?$this->getRequest()->getParam("p", 0):0;
+    $valuem=$this->getRequest()->getParam("m", 0)!="undefined"?$this->getRequest()->getParam("m", 0):0;
+    $form=$this->getForm($p,$valuep, $valuem, $k);
     if($this->getRequest()->isPost()){
       $formData=$this->getRequest()->getPost();
 
@@ -76,13 +77,20 @@ class Caisse_PlatController extends Zend_Controller_Action{
 
       $ingt_plus=array_unique($ingt_plus);
       $ingt_moins=array_unique($ingt_moins);
-
+      $tmpp=array_keys($ingt_plus, "");
+      foreach($tmpp as $value){
+        unset($ingt_plus[$value]);
+      }
+       $tmpm=array_keys($ingt_moins, "");
+      foreach($tmpm as $value){
+        unset($ingt_moins[$value]);
+      }
       echo implode(",", $ingt_plus)."|".implode(",", $ingt_moins)."|";
 
       $ingt=new Caisse_Model_DbTable_Ingt();
 
       if(count($ingt_plus)>0){
-
+        
         $resp=$ingt->listAll("id_ingt IN (".implode(",", $ingt_plus).")");
         foreach($resp as $p)
           echo "+ $p->nom_ingt\n";

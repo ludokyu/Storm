@@ -155,6 +155,7 @@ function save_cmd(print) {
 
   //verification dernieree ligne
   $("#wait").css("display", "block");
+
   if ($('table#list_panier tr:last input#prix').val() != ""
           && $('table#list_panier tr:last').attr('id_panier') != "" && $('table#list_panier tr:last').attr('id_panier') != "undefined") {
 
@@ -177,6 +178,7 @@ function save_cmd(print) {
   }
   //insert cmd
   total = getTotal();
+
   nb_panier = $('table#list_panier tr[id_panier]').length;
 
   if (!(total == 0 && nb_panier == 0)) {
@@ -188,29 +190,31 @@ function save_cmd(print) {
         async: false
       }).responseText;
     }
-    else
+    else {
       id_cmd = $('#id_cmd').val();
+      $.ajax({
+        url: "/caisse/index/updatecmd/id_client/" + $('#id_client').val() + "/type_cmd/" + $("input[name=type_cmd]:checked").val(),
+        type: 'get',
+        async: false
+      })
+    }
+
 
     $.ajax({
-      url: "/caisse/index/insertpanier/id_cmd/" + id_cmd,
-      type: 'get',
-      success: function(text) {
-        $.ajax({
-          url: "/caisse/index/totalcmd/id_cmd/" + id_cmd,
-          type: "get",
-          success: function(result) {
+      url: "/caisse/index/totalcmd/id_cmd/" + id_cmd,
+      type: "get",
+      success: function(result) {
 
-            if (print == 1)
-              print_cmd(id_cmd);
-            $('#id_cmd').val("");
-            $("#wait").css("display", "none");
-            $("#exe_cmd").css("display", "none");
-            retour_list_cmd();
+        if (print == 1)
+          print_cmd(id_cmd);
+        $('#id_cmd').val("");
+        $("#wait").css("display", "none");
+        $("#exe_cmd").css("display", "none");
+        retour_list_cmd();
 
-          }
-        });
       }
     });
+
   }
   else {
     $.ajax({
@@ -251,8 +255,7 @@ function suivant(t, ev) {
   var key = ev.keyCode || ev.charCode;
 
   if (key == 13) {
-
-    if ($("*[tabindex=" + (tabindex + 1) + "]").get(0).tagName == "INPUT" && $("*[tabindex=" + (tabindex + 1) + "]").attr("type")) {
+    if ($("*[tabindex=" + (tabindex + 1) + "]").length > 0 && $("*[tabindex=" + (tabindex + 1) + "]").get(0).tagName == "INPUT" && $("*[tabindex=" + (tabindex + 1) + "]").attr("type")) {
       f = function() {
         val = $("*[tabindex=" + (tabindex + 1) + "]").val();
         $("*[tabindex=" + (tabindex + 1) + "]").focus();
@@ -493,6 +496,7 @@ function event_menu(ev) {
     }
   }
   if (key == 107 || key == 61) {  // +
+    console.log($('#div_menu  dl.highlight select:first').attr("is_compo"));
     if ($('#div_menu  dl.highlight select:first').attr("is_compo") == 1) {
       name = $('#div_menu  dl.highlight select:first').attr("name");
       id = name.substring(8);
@@ -573,17 +577,22 @@ function add_supp(t, ev) {
 
       if (key >= 65 && key <= 90)
         k = "/k/" + l[key];
-      $.ajax({
-        url: "/caisse/plat/listingt/plat/" + $("tr.trhighlight #plat").val() + "/p/" + p + "/m/" + m + k,
-        success: function(div_ingt) {
-          $("#over2.div_over").attr("id", "div_ingt");
-          $('#div_ingt').html(div_ingt);
-          $('#div_ingt').css("display", "block");
-          $('#div_ingt label:first').attr("class", "label_highlight");
-          $('.trhighlight select#select_ingt').attr("onkeyup", "");
-          setTimeout('$("body").attr("onKeyup","event_ingt(event)");', 100);
-        }
-      });
+      if ($('#div_ingt').css("display") != "block") {
+        $.ajax({
+          url: "/caisse/plat/listingt/plat/" + $("tr.trhighlight #plat").val() + "/p/" + p + "/m/" + m + k,
+          success: function(div_ingt) {
+            $("#over2.div_over").attr("id", "div_ingt");
+            $('#div_ingt').html(div_ingt);
+            $('#div_ingt').css("display", "block");
+            $('#div_ingt label:first').attr("class", "label_highlight");
+            $('.trhighlight select#select_ingt').attr("onkeyup", "");
+            $('.trhighlight select#select_ingt').blur();
+            setTimeout('$("body").attr("onKeyup","event_ingt(event)");', 10);
+
+
+          }
+        });
+      }
     }
   }
 }
@@ -627,13 +636,22 @@ function valid_ingt() {
         tab = text.split("|");
         $("#div_menu  dl.highlight #ingt_plus_" + tdid).val(tab[0]);
         $("#div_menu  dl.highlight #ingt_moins_" + tdid).val(tab[1]);
-
-        $("#div_menu  dl.highlight #ingt_plus_" + tdid + " +p").html(tab[2]);
-        $("#div_menu  dl.highlight #ingt_plus_" + tdid + " +p").css("display", "block");
-
-        $("#div_menu  dl.highlight #ingt_moins_" + tdid + " +p").html(tab[3]);
-        $("#div_menu  dl.highlight #ingt_moins_" + tdid + " +p").css("display", "block");
-
+      
+        if (tab[2].length > 0) {
+          if ($("#div_menu  #ingt_plus_" + tdid + " +p").length == 0)
+            $("#div_menu  #ingt_plus_" + tdid).after("<p class='description'></p>");
+        
+          $("#div_menu   #ingt_plus_" + tdid + " +p").html(tab[2]);
+          $("#div_menu   #ingt_plus_" + tdid + " +p").css("display", "block");
+        }
+        if (tab[3].length > 0) {
+          if ($("#div_menu  dl #ingt_moins_" + tdid + " +p").length == 0){
+            $("#div_menu  dl #ingt_moins_" + tdid).after("<p class='description'></p>");
+            cons
+          }
+          $("#div_menu  dl #ingt_moins_" + tdid + " +p").html(tab[3]);
+          $("#div_menu  dl #ingt_moins_" + tdid + " +p").css("display", "block");
+        }
         $('body').attr("onKeyup", "event_menu(event)");
         $('#div_ingt').css("display", "none");
         $('#div_ingt').attr("id", "over2");
@@ -647,6 +665,7 @@ function valid_ingt() {
 }
 
 function event_ingt(ev) {
+
   id = $('#div_ingt .label_highlight').attr("for");
   var key = ev.keyCode || ev.charCode;
 
@@ -716,7 +735,6 @@ function event_ingt(ev) {
     case 107 :
     case 187 :
     case 61:/// +
-
       if ($('#div_ingt .label_highlight input:first').is(':checked'))
         $('#div_ingt .label_highlight input:last').attr("checked", "checked");
       else
@@ -917,7 +935,7 @@ function encaissement(id_liv) {
     url: url,
     data: data_form,
     success: function(text) {
-     // verif_form = text.substring(text.indexOf("|", 0) + 1);
+      // verif_form = text.substring(text.indexOf("|", 0) + 1);
       var result = $.parseJSON(text);
       //result = $.parseJSON(result);
       //data_post = text.substring(0, text.indexOf("|", 0));
@@ -925,14 +943,15 @@ function encaissement(id_liv) {
         $("#recette_" + id_liv).toggle();
       } else {
         // Pour chaque champs en erreur
-        
+
         $.each(result, function(champ, erreurs) {
-          
+
           // Pour chacune des erreurs
           $.each(erreurs, function(type, msg) {
             console.log(type);
-            $('#' + champ,tr).after('<div class="formValidation ' + type + '" style="display:block;top:-7px;">' + msg + '</div>');
-            $('#' + champ +'+div.formValidation',tr).fadeOut( 2200, "linear",function(){});
+            $('#' + champ, tr).after('<div class="formValidation ' + type + '" style="display:block;top:-7px;">' + msg + '</div>');
+            $('#' + champ + '+div.formValidation', tr).fadeOut(2200, "linear", function() {
+            });
           });
         });
         $("input", $(".formValidation:first").parent()).focus();

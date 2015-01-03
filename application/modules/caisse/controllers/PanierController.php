@@ -15,15 +15,10 @@ class Caisse_PanierController extends Zend_Controller_Action{
             ->addResourceType('view', 'views', 'View')
             ->addResourceType('helper', 'views/helpers', 'Helper');
 
-    if(Zend_Registry::isRegistered('firephp')) 
-       $r=Zend_Registry::get('firephp');
-
+    
  
       $cmd=new Zend_Session_Namespace("cmd");
-      if(!isset($cmd->panier))
-      $cmd->panier=array();
-      else
-        $r->log($cmd->panier,Zend_Log::INFO);
+     
       
       $this->cmd=$cmd;
   }
@@ -107,13 +102,13 @@ class Caisse_PanierController extends Zend_Controller_Action{
   public function insertAction(){
     // action body*
     $this->_helper->viewRenderer->setNoRender();
-     $db_panier=new Caisse_Model_DbTable_Panier();
+    // $db_panier=new Caisse_Model_DbTable_Panier();
    // $form=$this->getForm();
     $formData=$this->getRequest()->getPost();
 
     $db_cat=new Caisse_Model_DbTable_Categorie();
     $c=$db_cat->is_menu($formData["cat"]);
-    $menu=new Caisse_Model_DbTable_PanierMenu();
+   // $menu=new Caisse_Model_DbTable_PanierMenu();
     $data=array("id_cat"=>$formData["cat"], "id_plat"=>$formData["plat"], "plus_ingt"=>$formData["list_plus"],
         "moins_ingt"=>$formData["list_moins"], "taille"=>$formData["taille"], "prix_panier"=>$formData["prix"],
         "rmq"=>$formData["rmq"], "qte_panier"=>$formData["qte"]);
@@ -125,35 +120,48 @@ class Caisse_PanierController extends Zend_Controller_Action{
     if($formData["id_panier"]!=""){
       $last=$formData["id_panier"];
       $this->cmd->panier[$last]=$data;
-       $db_panier->update($data, "id_panier=".$last);
-      if($c->is_menu!=1)
-        $menu->truncate($last);
+       //$db_panier->update($data, "id_panier=".$last);
+     if($c->is_menu==1){
+        //$menu->insertInpanier($last_d);
+        $this->cmd->panier[$last]["menu"]= $this->cmd->menu;
+         $this->cmd->menu=array();
+      }
+      else{
+        unset($this->cmd->panier[$last]["menu"]);
+        $this->cmd->menu=array();
+        //$menu->truncate();
+      }
     }
     else{
-       $last_d=$db_panier->addtopanier($data);
+      // $last_d=$db_panier->addtopanier($data);
       
       if(!isset($this->cmd->panier))
         $this->cmd->panier=array();
       $this->cmd->panier[]=$data;
-      $last=key($this->cmd->panier);
-      echo $last_d;
-      if($c->is_menu==1)
-        $menu->insertInpanier($last_d);
-      else
-        $menu->truncate();
+      $last=count($this->cmd->panier)-1;
+      echo $last;
+      if($c->is_menu==1){
+        //$menu->insertInpanier($last_d);
+        $this->cmd->panier[$last]["menu"]= $this->cmd->menu;
+         $this->cmd->menu=array();
+      }
+      else{
+        unset($this->cmd->panier[$last]["menu"]);
+        $this->cmd->menu=array();
+        //$menu->truncate();
+      }
+   
+     
     }
-    if(Zend_Registry::isRegistered('firephp')) {
-       $r=Zend_Registry::get('firephp');
-      $r->log($this->cmd->panier,  Zend_Log::INFO);
-       
-     }
+  
   }
 
   public function truncateAction(){
     $this->_helper->viewRenderer->setNoRender();
-    $panier=new Caisse_Model_DbTable_Panier();
-    $panier->truncate();
+    //$panier=new Caisse_Model_DbTable_Panier();
+   // $panier->truncate();
     $this->cmd->panier=array();
+    unset($this->cmd->menu);
   }
 
   public function affichcmdAction(){
@@ -162,20 +170,24 @@ class Caisse_PanierController extends Zend_Controller_Action{
     $cmd=new Caisse_Model_DbTable_Panier();
     $list_panier=$cmd->getPanierCmd($id_cmd);
     $view=array();
+    $this->cmd->panier=array();
+    unset($this->cmd->menu);
+    
     $i=1;
-    foreach($list_panier as $val){
+    $this->cmd->id_cmd=$id_cmd;
+     foreach($list_panier as $val){
       $data=array();
       $data["id"]=$i;
-
+      
       $data["id_panier"]=$val->id_panier;
-
+      $this->cmd->panier[$val->id_panier]=$val;
       $form=$this->getForm($i);
 
 
       $form->plat->addMultiOption($val->id_plat, $val->nom_plat);
       if($val->tab_taille!="")
         $form->taille->addMultiOptions(unserialize($val->tab_taille));
-
+      
 
       if(is_null($val->id_plat_2))
         $form->removeElement("plat_2");

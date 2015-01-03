@@ -14,11 +14,9 @@ class Caisse_ClientController extends Zend_Controller_Action{
             ->addResourceType('form', 'forms', 'Form')
             ->addResourceType('view', 'views', 'View')
             ->addResourceType('helper', 'views/helpers', 'Helper');
-    if(Zend_Session::namespaceIsset("cmd"))
-      $this->cmd=Zend_Session::namespaceGet("cmd");
-    else{
+   
       $this->cmd=new Zend_Session_Namespace("cmd");
-    }
+   
   }
 
   public function indexAction(){
@@ -47,7 +45,7 @@ class Caisse_ClientController extends Zend_Controller_Action{
           //insert client
           $id_client=$client->add($data_insert);
           echo "id_client=".$id_client."|";
-          $this->session->cmd->id_client=$id_client;
+          $this->cmd->id_client=$id_client;
         }
         else{
           //update;;
@@ -60,11 +58,11 @@ class Caisse_ClientController extends Zend_Controller_Action{
           $row=$client->fetchAll($select);
           if($row->count()==0){
             $client->updateclient($data_insert, $id);
-            $this->session->cmd->id_client=$id;
+            $this->cmd->id_client=$id;
           }
           else{
             echo "id_client=".$row[0]->id_client."|";
-            $this->session->cmd->id_client=$row[0]->id_client;
+            $this->cmd->id_client=$row[0]->id_client;
           }
         }
         $this->_helper->json->sendJson($data);
