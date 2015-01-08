@@ -35,7 +35,7 @@ class Storm_Form_Default extends Zend_Form{
         break;
       default:
 
-        $default=array("text", "hidden", "textarea", "password", "select", "radio", "button", "reset", "file", "submit", "selectattrib", "DoubleMultiCheckbox", "MultiCheckbox", "html");
+        $default=array("text", "hidden", "textarea", "password", "select", "radio", "button", "reset", "file", "submit", "selectattrib", "DoubleMultiCheckbox", "MultiCheckbox", "html","multitext");
 
         if(in_array($type, $default))
           eval("\$element = new Zend_Form_Element_".ucfirst($type)."('$name');");
