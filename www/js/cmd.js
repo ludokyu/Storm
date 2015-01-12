@@ -908,13 +908,23 @@ function start_cmd(ev) {
 function calcul_encaissement(id_liv) {
   total = 0;
   $("#form_encaissement_" + id_liv + " input[type=text]").each(function() {
-    // console.log(this.name+" "+this.value);
-    if (isNaN(parseFloat(this.value)) === false) {
-      total += parseFloat(this.value);
+    val=this.value.replace(",",".");
+    try{ 
+      if(isNaN(parseFloat(eval(val))) === false) {
+        total += parseFloat(eval(val));
+        this.value=eval(val);
+      }
+    }
+    catch(err)
+    {
+      alert("Opération mathématique non valide");
+      this.focus();
     }
   });
   // console.log(total);
   $("#calcul_" + id_liv).html(total + " &euro;");
+  
+  $("#restant_" + id_liv).html(($("#form_encaissement_"+id_liv+" #total").val()-total) + " &euro;");$("form_encaissement_"+id_liv+" #total").val();
 }
 
 function encaissement(id_liv) {
@@ -948,7 +958,7 @@ function encaissement(id_liv) {
 
           // Pour chacune des erreurs
           $.each(erreurs, function(type, msg) {
-            console.log(type);
+           
             $('#' + champ, tr).after('<div class="formValidation ' + type + '" style="display:block;top:-7px;">' + msg + '</div>');
             $('#' + champ + '+div.formValidation', tr).fadeOut(2200, "linear", function() {
             });

@@ -208,6 +208,10 @@ class Caisse_IndexController extends Zend_Controller_Action{
           $total_encaissement+=$enc;
         }
       }
+      foreach($this->view->livreur as $l){
+        if($liv->id_livreur==$l->id_livreur)
+        $paiement->NewElement("hidden", "total", "", array("value"=>$l->total));
+      }
       $paiement->NewElement("submit", "btnSubmit", "Encaisser", array("decorators"=>array("htmltag"=>array("tag"=>"br")), "attribs"=>array("onclick"=>"encaissement('".$liv->id_livreur."')")));
       $paiement->NewElement("hidden", "html", "", array("style"=>"display:none", "decorators"=>array("htmltag"=>array("tag"=>"br"))));
       $total_encaissement_livreur[$liv->id_livreur]=$total_encaissement;
@@ -284,11 +288,11 @@ class Caisse_IndexController extends Zend_Controller_Action{
     $cmd=new Caisse_Model_DbTable_Cmd();
 
     $data["type_cmd"]=$this->getRequest()->getParam("type_cmd");
-    
+
 
     $session_cmd=new Zend_Session_Namespace("cmd");
     $id_cmd=$session_cmd->id_cmd;
-    
+
     $panier->truncate($id_cmd);
     foreach($session_cmd->panier as $data){
       $panier->insertPanierToCmd($id_cmd, $data);
