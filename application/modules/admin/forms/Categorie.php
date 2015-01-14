@@ -3,10 +3,10 @@
 class Admin_Form_Categorie extends Storm_Form_Default
 {
 
-    public function init()
+    public function init($name="modif_cat")
     {
         /* Form Elements & Other Definitions Here ... */
-        parent::init("modif_cat");
+        parent::init($name);
         $this->setName("modif_cat");
         $this->setAction("/admin/plat/cat");
         $this->setAttrib("onsubmit","submit_form('#modif_cat'); return false");
