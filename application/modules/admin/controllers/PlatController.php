@@ -160,8 +160,7 @@ class Admin_PlatController extends Zend_Controller_Action{
     }
     else{
       if($this->getRequest()->getParam("id_plat", 0)!=0){
-        $form->submitBtn->setLabel("Modifier");
-        $row=$Table->getPlat($this->getRequest()->getParam("id_plat"));
+       $row=$Table->getPlat($this->getRequest()->getParam("id_plat"));
       }
       else{
         $Table=new Admin_Model_DbTable_Categorie();
@@ -222,7 +221,7 @@ class Admin_PlatController extends Zend_Controller_Action{
         $form->removeElement("add_menu");
       }
       if($row->is_menu==1){
-
+      
         if(isset($row->id_plat)){
           $Menu=new Admin_Model_DbTable_Menu();
           $menu=$Menu->getMenu($row->id_plat);
@@ -230,14 +229,14 @@ class Admin_PlatController extends Zend_Controller_Action{
           $k=1;
           foreach($menu as $m){
             $no=$form->getMenu($k);
-            $form->{"id_menu_".$k}->setValue($m->id_menu);
-            $form->{"qte_".$k}->setValue($m->qte);
-            $form->{"id_cat_".$k}->setValue($m->id_cat);
+            $form->getElement("id_menu_".$k)->setValue($m->id_menu);
+            $form->getElement("qte_".$k)->setValue($m->qte);
+            $form->getElement("id_cat_".$k)->setValue($m->id_cat);
 
             if(!unserialize($m->tab_taille))
               $form->removeElement("taille_".$k);
             else{
-              $form->{"taille_".$k}->setMultiOptions(unserialize($m->tab_taille))
+              $form->getElement("taille_".$k)->setMultiOptions(unserialize($m->tab_taille))
                       ->setValue($m->taille);
             }
 
@@ -246,7 +245,7 @@ class Admin_PlatController extends Zend_Controller_Action{
             foreach($plat as $p){
               $option[$p->id_plat]=$p->nom_plat;
             }
-            $form->{"list_plat_".$k}->setMultiOptions($option)
+            $form->getElement("list_plat_".$k)->setMultiOptions($option)
                     ->setValue(explode(",", $m->list_plat));
 
             $options=array();
@@ -261,20 +260,18 @@ class Admin_PlatController extends Zend_Controller_Action{
             $options["NULL"]="";
             asort($options);
 
-            $form->{"id_plat_default_".$k}->setMultiOptions($options)
-                    ->setValue($default);
+            $form->getElement("id_plat_default_".$k)->setMultiOptions($options);      
             $k++;
           }
-          $form->cancel->setOrder($no++);
-          $form->submitBtn->setOrder($no++);
+          
         }
-        else{
+        else{     
           $form->getMenu(1);
         }
       }
     }
 
-    $form->populate($row->toArray());
+    $form->populate($row->toArray()); 
     $this->view->form=$form;
   }
 
