@@ -268,6 +268,7 @@ class Caisse_IndexController extends Zend_Controller_Action{
     $id_cmd=$cmd->insert($data);
     $session_cmd=new Zend_Session_Namespace("cmd");
     foreach($session_cmd->panier as $data){
+      unset($data["menu"]);
       $panier->insertPanierToCmd($id_cmd, $data);
     }
     echo $id_cmd;
