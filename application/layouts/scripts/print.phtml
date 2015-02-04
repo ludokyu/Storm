@@ -1,39 +1,76 @@
-<?php ob_start();
+<?php
+ob_start();
 $this->headMeta()->appendHttpEquiv('Content-Type', 'text/html;charset=utf-8');
-echo $this->doctype(); ?>
-    <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="fr" lang="fr">
-<head>
- <?php echo $this->headMeta();?>
-    </head>
-<body>
-  
-  <?php echo $this->layout()->content; ?>
-  <script type='text/javascript'>//print();
-    <?php if($this->config->module_print && $this->config->os=="win"){ ?>
-      jsPrintSetup.setPrinter('<?= $this->config->printer; ?>');
-    jsPrintSetup.setOption('marginTop', 0);
-    jsPrintSetup.setOption('marginBottom', 0);
-    jsPrintSetup.setOption('marginLeft', 0);
-    jsPrintSetup.setOption('marginRight', 0);
-    jsPrintSetup.setOption('headerStrLeft', '');
-    jsPrintSetup.setOption('headerStrCenter', '');
-    jsPrintSetup.setOption('headerStrRight', '');
-    // set empty page footer
-    jsPrintSetup.setOption('footerStrLeft', '');
-    jsPrintSetup.setOption('footerStrCenter', '');
-    jsPrintSetup.setOption('footerStrRight', '');
+echo $this->doctype();
+?>
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="fr" lang="fr">
+  <head>
+<?php echo $this->headMeta(); ?>
+  </head>
+  <body>
 
-    // clears user preferences always silent print value
-    // to enable using 'printSilent' option
-    jsPrintSetup.clearSilentPrint();
-    // Suppress print dialog (for this context only)
-    jsPrintSetup.setOption('printSilent', 1);
+<?php echo $this->layout()->content; ?>
+    <script type='text/javascript'>//print();
+<?php if($this->config->module_print&&$this->config->os=="win"){ ?>
+        var printer = jsPrintSetup.getPrinter();
+        var marginTop = jsPrintSetup.getOption('marginTop');
+        var marginBottom = jsPrintSetup.getOption('marginBottom');
+        var marginLeft = jsPrintSetup.getOption('marginLeft');
+        var marginRight = jsPrintSetup.getOption('marginRight');
+        var headerStrLeft = jsPrintSetup.getOption('headerStrLeft');
+        var headerStrCenter = jsPrintSetup.getOption('headerStrCenter');
+        var headerStrRight = jsPrintSetup.getOption('headerStrRight');
+        // set empty page footer
+        var footerStrLeft = jsPrintSetup.getOption('footerStrLeft');
+        var footerStrCenter = jsPrintSetup.getOption('footerStrCenter');
+        var footerStrRight = jsPrintSetup.getOption('footerStrRight');
+        var printSilent = jsPrintSetup.getOption('printSilent');
+        var ShowPrintProgress = jsPrintSetup.getShowPrintProgress();
+
+
+        jsPrintSetup.setPrinter('<?= $this->config->printer; ?>');
+        jsPrintSetup.setOption('marginTop', 0);
+        jsPrintSetup.setOption('marginBottom', 0);
+        jsPrintSetup.setOption('marginLeft', 0);
+        jsPrintSetup.setOption('marginRight', 0);
+        jsPrintSetup.setOption('headerStrLeft', '');
+        jsPrintSetup.setOption('headerStrCenter', '');
+        jsPrintSetup.setOption('headerStrRight', '');
+        // set empty page footer
+        jsPrintSetup.setOption('footerStrLeft', '');
+        jsPrintSetup.setOption('footerStrCenter', '');
+        jsPrintSetup.setOption('footerStrRight', '');
+        jsPrintSetup.setShowPrintProgress(false);
+        // clears user preferences always silent print value
+        // to enable using 'printSilent' option
+        jsPrintSetup.clearSilentPrint();
+        // Suppress print dialog (for this context only)
+        jsPrintSetup.setOption('printSilent', 1);
 
         jsPrintSetup.print();
-    <?php }
-    ?>
-    //  jsPrintSetup. setShowPrintProgress(oldShowPrintProgress);
-   window.close();
-</script>
-    </body>
+                
+        
+        jsPrintSetup.setPrinter(printer);
+        jsPrintSetup.setOption('marginTop', marginTop);
+        jsPrintSetup.setOption('marginBottom', marginBottom);
+        jsPrintSetup.setOption('marginLeft', marginLeft);
+        jsPrintSetup.setOption('marginRight', marginRight);
+        jsPrintSetup.setOption('headerStrLeft', headerStrLeft);
+        jsPrintSetup.setOption('headerStrCenter', headerStrCenter);
+        jsPrintSetup.setOption('headerStrRight', headerStrRight);
+        // set empty page footer
+        jsPrintSetup.setOption('footerStrLeft', footerStrLeft);
+        jsPrintSetup.setOption('footerStrCenter',footerStrCenter);
+        jsPrintSetup.setOption('footerStrRight', footerStrRight);
+        jsPrintSetup.setShowPrintProgress(ShowPrintProgress);
+        // clears user preferences always silent print value
+        // to enable using 'printSilent' option
+       
+        jsPrintSetup.setOption('printSilent', printSilent);
+<?php }
+?>
+   
+      window.close();
+    </script>
+  </body>
 </html>
