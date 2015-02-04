@@ -10,6 +10,7 @@ echo $this->doctype(); ?>
   <?php echo $this->layout()->content; ?>
   <script type='text/javascript'>//print();
     <?php if($this->config->module_print && $this->config->os=="win"){ ?>
+      jsPrintSetup.setPrinter('<?= $this->config->printer; ?>');
     jsPrintSetup.setOption('marginTop', 0);
     jsPrintSetup.setOption('marginBottom', 0);
     jsPrintSetup.setOption('marginLeft', 0);
