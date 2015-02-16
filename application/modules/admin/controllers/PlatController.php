@@ -569,8 +569,8 @@ class Admin_PlatController extends Zend_Controller_Action{
 
   public function deletecatAction(){
 // action body
-    $p=new Admin_Model_DbTable_Plat();
-    $p->deletePlat($this->getRequest()->getParam("id", 0));
+    $p=new Admin_Model_DbTable_Categorie();
+    $p->deleteCat($this->getRequest()->getParam("id_cat", 0));
     $this->_redirect("/admin/plat/index/a/cat");
   }
 

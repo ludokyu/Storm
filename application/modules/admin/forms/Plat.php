@@ -8,14 +8,16 @@ class Admin_Form_Plat extends Storm_Form_Default{
     $this->setName($name);
     $this->setAction("/admin/plat/plat");
     $this->setAttrib("onsubmit", "submit_form('#modif_plat'); return false");
-    $this->NewElement("hidden", "id_plat", "", array('order'=>1));
-    $this->NewElement("hidden", "id_cat", "", array('order'=>2));
-    $this->NewElement("text", "nom_plat", "Nom", array('order'=>3));
-    $this->NewElement("text", "place", "Sur place", array('description'=>'€', "order"=>4, "attribs"=>array("style"=>"width:40px")));
-    $this->NewElement("text", "go", "Emporter", array('description'=>'€', "order"=>5, "attribs"=>array("style"=>"width:40px")));
-    $this->NewElement("text", "liv", "Livraison", array('description'=>'€', "order"=>6, "attribs"=>array("style"=>"width:40px")));
+    
+     $this->NewElement("text", "place", "Sur place", array('description'=>'€', "order"=>1, "attribs"=>array("style"=>"width:40px")));
+    $this->NewElement("text", "go", "Emporter", array('description'=>'€', "order"=>2, "attribs"=>array("style"=>"width:40px")));
+    $this->NewElement("text", "liv", "Livraison", array('description'=>'€', "order"=>3, "attribs"=>array("style"=>"width:40px")));
     $this->addDisplayGroup(array('go', 'place', 'liv'), 'global_prix', array("legend"=>"Prix"));
 
+    $this->NewElement("hidden", "id_plat", "", array('order'=>5));
+    $this->NewElement("hidden", "id_cat", "", array('order'=>6));
+    $this->NewElement("text", "nom_plat", "Nom", array('order'=>7));
+   
 
     $Table_base=new Admin_Model_DbTable_Base();
     $bases=$Table_base->listbase();
@@ -23,7 +25,7 @@ class Admin_Form_Plat extends Storm_Form_Default{
     foreach($bases as $b){
       $option[$b->id_base]=$b->nom_base;
     }
-    $this->NewElement("select", "base_pizza", "Choisissez la sauce comme base par defaut de votre plat", array("options"=>$option, "order"=>7));
+    $this->NewElement("select", "base_pizza", "Choisissez la sauce comme base par defaut de votre plat", array("options"=>$option, "order"=>8));
 
     $Table_ingt=new Admin_Model_DbTable_Ingt();
     $bases=$Table_ingt->listAll();
@@ -31,15 +33,15 @@ class Admin_Form_Plat extends Storm_Form_Default{
     foreach($bases as $b){
       $option[$b->id_ingt]=$b->nom_ingt;
     }
-    $this->NewElement("MultiCheckbox", "list_ingt", "Choix des ingrédients de votre plat", array("options"=>$option, "separator"=>" ", "order"=>8, "attribs"=>array("label_style"=>"clear:none;font-size:10pt;width:120px;")));
-    $this->NewElement("button", "add_menu", "Ajouter un composant à votre menu", array("attribs"=>array("onclick"=>"addMenu()"), "order"=>9));
-    $this->NewElement("hidden", "count_menu", "", array("value"=>0, "order"=>10));
+    $this->NewElement("MultiCheckbox", "list_ingt", "Choix des ingrédients de votre plat", array("options"=>$option, "separator"=>" ", "order"=>9, "attribs"=>array("label_style"=>"clear:none;font-size:10pt;width:120px;")));
+    $this->NewElement("button", "add_menu", "Ajouter un composant à votre menu", array("attribs"=>array("onclick"=>"addMenu()"), "order"=>10));
+    $this->NewElement("hidden", "count_menu", "", array("value"=>0, "order"=>11));
   }
 
   public function getMenu($i){
     $ordre=$this->count_menu->getOrder();
 
-    $no=$ordre+(($i-1)*10)+1;
+    $no=$ordre+(($i-1)*12)+1;
     // $no=$this->count()+1;
     $this->count_menu->setValue($this->count_menu->getValue()+1);
 

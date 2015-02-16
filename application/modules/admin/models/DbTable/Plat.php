@@ -8,10 +8,11 @@ class Admin_Model_DbTable_Plat extends Storm_Model_DbTable_Plat{
   public function getListPlatOrderByCat(){
     $select=$this->select()
             ->setIntegrityCheck(false);
-    $select->from($this, array("id_plat", "nom_plat"))
-            ->joinRight("t_categorie", $this->_name.".id_cat=t_categorie.id_cat AND statut_cat=1", array("nom_cat","id_cat"))
+   $select->from($this, array("id_plat", "nom_plat"))
+            ->joinRight("t_categorie", $this->_name.".id_cat=t_categorie.id_cat AND statut_cat=1", array("nom_cat","id_cat","statut_cat"))
             ->where("statut_plat=1")
             ->orWhere("statut_plat IS NULL")
+           ->having("statut_cat=1")
             ->order("nom_cat")
             ->order("nom_plat");
 
@@ -112,4 +113,5 @@ class Admin_Model_DbTable_Plat extends Storm_Model_DbTable_Plat{
   }
   
 }
+
 

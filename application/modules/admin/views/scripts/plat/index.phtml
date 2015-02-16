@@ -78,7 +78,7 @@ switch($this->action){
         )." id='is_default-".$cat->id_cat."'
         value='".$cat->id_cat."' onclick='cat_default()'/>
             $cat->nom_cat ".$this->formButton("update_cat_".$cat->id_cat, "Modifier", array("style"=>'float:right;margin-top:0px', ' onclick'=>'modif_cat_admin('.$cat->id_cat.')'))."</span>
-            ".$this->formButton("del_cat_".$cat->id_cat, "Supprimer", array("onclick"=>"location.href='".$this->url(array("action"=>"delete_cat", "id_cat"=>$cat->id_cat))."'"));
+            ".$this->formButton("del_cat_".$cat->id_cat, "Supprimer", array("onclick"=>"location.href='".$this->url(array("action"=>"deletecat", "id_cat"=>$cat->id_cat))."'"));
       }
       break;
   }
