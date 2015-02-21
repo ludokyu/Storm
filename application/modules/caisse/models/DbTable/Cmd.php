@@ -42,10 +42,15 @@ class Caisse_Model_DbTable_Cmd extends Storm_Model_DbTable_Cmd{
 
   public function getEncaissementLiv($id_livreur, $id_reglement){
      $this->_name='enliv_encaissement_livreur';
-    $sql="SELECT enliv_montant FROM enliv_encaissement_livreur WHERE enliv_date= CURDATE() AND en_id_livreur=$id_livreur AND  enliv_modpaiment = $id_reglement";
-    $result=$this->fetchRow($sql);
-    //print_r($result);
+     $sql="SELECT enliv_montant FROM enliv_encaissement_livreur WHERE enliv_date= CURDATE() AND en_id_livreur=$id_livreur AND  enliv_modpaiment = $id_reglement";
+    $sql= $this->select()
+            ->from($this->_name,"enliv_montant")
+             ->where("enliv_date= CURDATE() AND en_id_livreur=?",$id_livreur)
+             ->where("enliv_modpaiment =?",$id_reglement);
+     $result=$this->fetchRow($sql);
+  
       $this->_name='v_cmd';
+      
    if($result)
       return $result->enliv_montant;
   }
