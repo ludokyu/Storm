@@ -8,10 +8,10 @@ class Admin_Form_Livreur extends Storm_Form_Default
         $this->_is_liv=$is_liv;
     parent::__construct();
     }
-    public function init()
+    public function init($name="livreur")
     {
         /* Form Elements & Other Definitions Here ... */
-        parent::init("livreur");
+        parent::init($name);
         $this->NewElement("hidden","id_livreur","");
         $this->NewElement("hidden","is_liv","",array("attribs"=>array("value"=>0)));
 
