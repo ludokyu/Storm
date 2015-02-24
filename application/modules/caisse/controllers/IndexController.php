@@ -268,7 +268,6 @@ class Caisse_IndexController extends Zend_Controller_Action{
     $id_cmd=$cmd->insert($data);
     $session_cmd=new Zend_Session_Namespace("cmd");
     foreach($session_cmd->panier as $data){
-      unset($data["menu"]);
       $panier->insertPanierToCmd($id_cmd, $data);
     }
     echo $id_cmd;
@@ -375,11 +374,11 @@ class Caisse_IndexController extends Zend_Controller_Action{
     if($config->module_print&&$config->os=="unix"){
 
       $html=ob_get_contents();
-      $fp=fopen(realpath(APPLICATION_PATH)."/".$this->cmd->id_cmd.".html", "w+");
+      $fp=fopen(realpath(APPLICATION_PATH)."/".$id_cmd.".html", "w+");
 
       fwrite($fp, $html);
       fclose($fp);
-      $exec="lpr -d{$this->config->printer}  ".realpath(APPLICATION_PATH)."/".$this->cmd->id_cmd.".html ";
+      $exec="lpr -d{$config->printer}  ".realpath(APPLICATION_PATH)."/".$id_cmd.".html ";
       exec($exec, $output);
 
 

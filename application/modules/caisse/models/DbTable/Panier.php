@@ -24,13 +24,15 @@ class Caisse_Model_DbTable_Panier extends Storm_Model_DbTable_Panier{
   
     $data_bd=$data;
     $data_bd["id_cmd"]=$id_cmd;
+    unset($data_bd["menu"]);
     if(isset($data["menu"])){
       $menu=$data["menu"];
-      unset($data_bd["menu"]);
+      
      
     }
+
     $id_panier=$this->insert($data_bd);
-    if(isset($data["menu"])){
+    if(!empty($data["menu"])){
       $menu["id_panier"]=$id_panier;
       $paniermenu=new Caisse_Model_DbTable_PanierMenu();
       $paniermenu->updatepanier($menu);
