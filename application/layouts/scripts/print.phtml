@@ -1,6 +1,5 @@
 <?php
 ob_start();
-$this->headMeta()->appendHttpEquiv('Content-Type', 'text/html;charset=utf-8');
 echo $this->doctype();
 ?>
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="fr" lang="fr">
@@ -25,7 +24,7 @@ echo $this->doctype();
         var footerStrCenter = jsPrintSetup.getOption('footerStrCenter');
         var footerStrRight = jsPrintSetup.getOption('footerStrRight');
         var printSilent = jsPrintSetup.getOption('printSilent');
-        var ShowPrintProgress = jsPrintSetup.getShowPrintProgress();
+        var ShowPrintProgress = true;
 
 
         jsPrintSetup.setPrinter('<?= $this->config->printer; ?>');
@@ -66,11 +65,11 @@ echo $this->doctype();
         // clears user preferences always silent print value
         // to enable using 'printSilent' option
        
-        jsPrintSetup.setOption('printSilent', printSilent);
+       
 <?php }
 ?>
    
-      window.close();
+ //     window.close();
     </script>
   </body>
 </html>
