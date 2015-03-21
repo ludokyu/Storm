@@ -10,11 +10,12 @@ echo number_format($this->recette->total,2);?> &euro;
 </div>
 
 <?php */
+  
 foreach($this->livreur as $liv){
     echo $this->formButton("button_recette_".$liv->nom_livreur,"Recette de ".$liv->nom_livreur,array("onclick"=>"\$('#recette_$liv->id_livreur').toggle()","style"=>"clear:both;margin-bottom:3px;float:right"));
-    
+  
 echo "<div id='recette_$liv->id_livreur' class='recette'><span style='color:#0eee00'>$liv->nom_livreur</span> : ".number_format($liv->total,2)." &euro;
-<div id='detail_recette_$liv->id_livreur'>".$this->encaissement[$liv->id_livreur]."
+<div id='detail_recette_$liv->id_livreur'>".$this->encaissement[$liv->id_livreur] ."<br/>
   <span>Montant calculé : </span><span id='calcul_".$liv->id_livreur."'>".$this->total_encaissement_livreur[$liv->id_livreur]." &euro;</span><br/>
     <span>Restant : </span><span id='restant_".$liv->id_livreur."'>".($liv->total-$this->total_encaissement_livreur[$liv->id_livreur])." &euro;</span></div>
 </div>" ;

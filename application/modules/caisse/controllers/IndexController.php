@@ -188,10 +188,13 @@ class Caisse_IndexController extends Zend_Controller_Action{
     $Regl=new Caisse_Model_DbTable_Reglement();
     $reg=$Regl->getAll();
 
-    $this->view->livreur=$cmd->recetteLiv();
+    $this->view->livreur=$livreurs=$cmd->recetteLiv();
+    $livreurs2=$cmd->recetteLiv();
     $encaissement=array();
     $total_encaissement_livreur=array();
-    foreach($this->view->livreur as $liv){
+    
+    foreach($livreurs as $liv){
+        
       $paiement=new Storm_Form_Default();
       $paiement->setName("form_encaissement_".$liv->id_livreur);
       $paiement->setAction("/caisse/index/encaisseLiv/");
@@ -208,17 +211,18 @@ class Caisse_IndexController extends Zend_Controller_Action{
           $total_encaissement+=$enc;
         }
       }
-      foreach($this->view->livreur as $l){
+      foreach($livreurs2 as $l){
         if($liv->id_livreur==$l->id_livreur)
         $paiement->NewElement("hidden", "total", "", array("value"=>$l->total));
       }
       $paiement->NewElement("submit", "btnSubmit", "Encaisser", array("decorators"=>array("htmltag"=>array("tag"=>"br")), "attribs"=>array("onclick"=>"encaissement('".$liv->id_livreur."')")));
-      $paiement->NewElement("hidden", "html", "", array("style"=>"display:none", "decorators"=>array("htmltag"=>array("tag"=>"br"))));
+     // $paiement->NewElement("hidden", "html", "", array("style"=>"display:none", "decorators"=>array("htmltag"=>array("tag"=>"br"))));
       $total_encaissement_livreur[$liv->id_livreur]=$total_encaissement;
       $encaissement[$liv->id_livreur]=$paiement;
+      
     }
 
-
+   
     $this->view->encaissement=$encaissement;
     $this->view->total_encaissement_livreur=$total_encaissement_livreur;
   }

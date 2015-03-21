@@ -35,7 +35,8 @@ class Caisse_Model_DbTable_Cmd extends Storm_Model_DbTable_Cmd{
     $select=$this->select(Zend_Db_Table::SELECT_WITH_FROM_PART)
             ->setIntegrityCheck(false);
     $select->join(array('l'=>'t_livreur'), 'l.id_livreur = '.$this->_name.'.id_livreur', array('l.nom_livreur', 'total'=>'ROUND(SUM(total_cmd),2)'))
-            ->group("l.id_livreur");
+            ->group("l.id_livreur")
+            ->order("l.id_livreur");
 
     return parent::fetchAll($select);
   }
