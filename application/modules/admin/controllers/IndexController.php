@@ -85,8 +85,33 @@ class Admin_IndexController extends Zend_Controller_Action
          $this->_helper->redirector("index","index","");
     }
 
+    public function logAction()
+    {
+        // action body
+        
+         $auth=Zend_Auth::getInstance();
+    if(!$auth->hasIdentity())
+      $this->_helper->redirector("index", "index");
+    else{
+      $i=$auth->getIdentity();
+      $this->view->identity=$i;
+    }
+    
+         $this->_helper->layout->setLayout("admin");
+    $this->view->headLink()->prependStylesheet($this->view->BaseUrl('/css/style.css'))
+            ->headLink()->appendStylesheet($this->view->BaseUrl('/css/admin.css'))
+            ->headLink(array('rel'=>'favicon', 'href'=>$this->view->BaseUrl('/favicon.ico')), 'PREPEND');
+    $this->view->headScript()->appendFile($this->view->BaseUrl("/js/jquery.js"))
+            ->appendFile($this->view->BaseUrl("/js/admin.js"));
+   
+    $this->view->php_error= file_get_contents(APPLICATION_PATH."/../data/logs/error.log");
+    $this->view->zend_error= file_get_contents(APPLICATION_PATH."/../data/logs/app.log");
+    }
+
 
 }
+
+
 
 
 

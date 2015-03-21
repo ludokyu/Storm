@@ -20,7 +20,7 @@ class Bootstrap extends Zend_Application_Bootstrap_Bootstrap{
 
 $writer = new Zend_Log_Writer_Stream(APPLICATION_PATH."/../data/logs/app.log","a+");
 $logger = new Zend_Log($writer);
-
+ini_set('error_log',APPLICATION_PATH."/../data/logs/error.log");
 }
  
   protected function _initView(){

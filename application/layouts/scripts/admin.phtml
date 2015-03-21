@@ -31,6 +31,8 @@ echo $this->doctype();
         <!--a href='<?php echo $this->url(array("action"=>"index", "controller"=>"commande", "module"=>"admin"), null, "default"); ?>'  title="Inventaire"><img src="<?php echo $this->BaseUrl("images/inventaire.png"); ?>"  /></a-->
         <?php if($this->identity["username"]=="Storm"){ ?>
           <a href='<?php echo $this->url(array("action"=>"index", "controller"=>"parametre", "module"=>"admin"), null, "default"); ?>'  title="Param&egrave;trage"><img src="<?php echo $this->BaseUrl("images/parametrage.png"); ?>"  /></a>
+             <a href='<?php echo $this->url(array("action"=>"log", "controller"=>"index", "module"=>"admin"), null, "default"); ?>'  title="Log"><img src="<?php echo $this->BaseUrl("images/log_icon.png"); ?>"  /></a>
+       
         <?php } ?>
         <a href='<?php echo $this->url(array("action"=>"index", "controller"=>"client", "module"=>"admin"), null, "default"); ?>' title="Fichier client"><img src="<?php echo $this->BaseUrl("images/client.png"); ?>"  /></a>
         <a href='<?php echo $this->url(array("action"=>"logout", "controller"=>"index", "module"=>"admin"), null, "default"); ?>' title="D&eacute;connexion"   ><img src="<?php echo $this->BaseUrl("images/exit.gif"); ?>" /></a>
